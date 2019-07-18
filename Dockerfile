@@ -1,109 +1,96 @@
 FROM ubuntu:18.04
 
-MAINTAINER Diego Nehab <diego.nehab@gmail.com>
+LABEL maintainer="Diego Nehab <diego@cartesi.io>"
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-ENV OLDPATH=$PATH
-
 ENV BASE "/opt/riscv"
 
+ENV BUILD_BASE "/tmp/build"
+
 RUN \
-    mkdir -p $BASE
-
-# Ideally, we should be able to compile a single version of
-# gcc with --enable-multilib that would support ABI lp64d
-# and ISA rv64imafd, as well as ABI lp64 and ISA rv64ima
-# We need to compile the kernel and bbl with ABI lp64 and
-# ISA rv64ima so bbl can emulate the floating-point
-# instructions.
-# The rest we can compile however we like.
-# We should prefer ABI lp64d and ISA rv64imafd if we want to
-# support an emulator that understands floating-point instructions.
-# We should prefer ABI lp64 and ISA rv64ima if we want the
-# best performance without native floating-point support.
-
-
-# Unfortunately, buildroot gets confused with the sysroot
-# layout of riscv's multilib and fails. So instead we
-# compile two independent gccs.
-# ----------------------------------------------------
+    mkdir -p $BASE $BUILD_BASE
 
 RUN \
     apt-get update && \
     apt-get install --no-install-recommends -y \
-        build-essential autoconf automake libtool autotools-dev \
+        build-essential autoconf automake libtool libtool-bin autotools-dev \
         git make pkg-config patchutils gawk bison flex ca-certificates \
-        device-tree-compiler libmpc-dev libmpfr-dev libgmp-dev \
+        device-tree-compiler libmpc-dev libmpfr-dev libgmp-dev rsync cpio \
         libusb-1.0-0-dev texinfo gperf bc zlib1g-dev libncurses-dev \
-        wget vim wget curl zip unzip libexpat-dev python && \
+        wget vim wget curl zip unzip libexpat-dev python python3 help2man && \
     rm -rf /var/lib/apt/lists/*
 
-# Download sources and build compilers
+
+# Install workaround to run as current user
 # ----------------------------------------------------
+COPY entrypoint.sh /usr/local/bin/entrypoint.sh
+
 RUN \
-    mkdir -p $BASE/src && \
-    cd $BASE/src && \
-    git clone --branch cartesi --depth 1 \
-        https://github.com/cartesi/riscv-gnu-toolchain.git && \
-    cd $BASE/src/riscv-gnu-toolchain && \
-        git clone --branch cartesi --depth 1 \
-            https://github.com/cartesi/riscv-gcc.git && \
-        git clone --branch cartesi --depth 1 \
-            https://github.com/cartesi/riscv-qemu.git && \
-        git clone --branch cartesi --depth 1 \
-            https://github.com/cartesi/riscv-binutils-gdb.git && \
-        git clone --branch cartesi --depth 1 \
-            https://github.com/cartesi/riscv-glibc.git && \
-        git clone --branch cartesi --depth 1 \
-            https://github.com/cartesi/riscv-newlib.git && \
-        git clone --branch cartesi --depth 1 \
-            https://github.com/cartesi/riscv-dejagnu.git && \
-    cd $BASE/src && \
-    git clone --branch cartesi --depth 1 \
-        https://github.com/cartesi/riscv-linux.git && \
-    cd $BASE/src/riscv-linux && \
-    make ARCH=riscv \
-        INSTALL_HDR_PATH=$BASE/src/riscv-gnu-toolchain/linux-headers \
-        headers_install && \
-    cd $BASE/src/riscv-gnu-toolchain && \
-    NPROC=$(nproc) && \
-    ARCH=rv64imafd && \
-    ABI=lp64d && \
-    RISCV="$BASE/toolchain/linux/$ARCH-$ABI" && \
-    mkdir -p $RISCV && \
-    ./configure --prefix=$RISCV --with-arch=$ARCH --with-abi=$ABI && \
-    make clean && \
-    make -j$NPROC linux && \
-    sed 's/^#define LINUX_VERSION_CODE.*/#define LINUX_VERSION_CODE 263682/' \
-        -i $RISCV/sysroot/usr/include/linux/version.h && \
-    ARCH=rv64ima && \
-    ABI=lp64 && \
-    RISCV="$BASE/toolchain/linux/$ARCH-$ABI" && \
-    mkdir -p $RISCV && \
-    ./configure --prefix=$RISCV --with-arch=$ARCH --with-abi=$ABI && \
-    make clean && \
-    make -j$NPROC linux && \
-    sed 's/^#define LINUX_VERSION_CODE.*/#define LINUX_VERSION_CODE 263682/' \
-        -i $RISCV/sysroot/usr/include/linux/version.h && \
-    ARCH=rv64imafd && \
-    ABI=lp64d && \
-    RISCV="$BASE/toolchain/elf/$ARCH-$ABI" && \
-    mkdir -p $RISCV && \
-    ./configure --prefix=$RISCV --with-arch=$ARCH --with-abi=$ABI && \
-    make clean && \
-    make -j$NPROC && \
-    ARCH=rv64ima && \
-    ABI=lp64 && \
-    RISCV="$BASE/toolchain/elf/$ARCH-$ABI" && \
-    mkdir -p $RISCV && \
-    ./configure --prefix=$RISCV --with-arch=$ARCH --with-abi=$ABI && \
-    make clean && \
-    make -j$NPROC && \
-    cd $BASE && \
-    \rm -rf $BASE/src
+    chmod +x /usr/local/bin/entrypoint.sh
+
+RUN \
+    cd $BUILD_BASE && \
+    git clone --branch v0.2 --depth 1 https://github.com/ncopa/su-exec.git && \
+    cd su-exec && \
+    if [ `git rev-parse --verify HEAD` != 'f85e5bde1afef399021fbc2a99c837cf851ceafa' ]; then exit 1; fi && \
+    make && \
+    cp su-exec /usr/local/bin/
+
+# Download and install crosstool-ng
+# ----------------------------------------------------
+COPY shasumfile $BUILD_BASE
+
+RUN \
+    cd $BUILD_BASE && \
+    wget http://crosstool-ng.org/download/crosstool-ng/crosstool-ng-1.24.0.tar.xz && \
+    shasum -c shasumfile && \
+    tar -Jxvf crosstool-ng-1.24.0.tar.xz && \
+    rm -rf crosstool-ng-1.24.0.tar.xz && \
+    cd crosstool-ng-1.24.0/ && \
+    ./bootstrap && \
+    ./configure --prefix=/usr/local && \
+    make && \
+    make install && \
+    rm -rf $BUILD_BASE
+
+# Build gcc 8.3 using crosstool-ng
+# ----------------------------------------------------
+# Add user to run crosstool-ng (it is dangerous to run it as root),
+RUN \
+    adduser ct-ng --gecos ",,," --disabled-password
+
+RUN \
+    mkdir -p $BUILD_BASE/toolchain
+
+COPY ct-ng-config $BUILD_BASE/toolchain/.config
+
+RUN \
+    chown -R ct-ng:ct-ng $BUILD_BASE/toolchain && \
+    chmod o+w $BUILD_BASE && \
+    chmod o+w $BASE
+
+USER ct-ng
+
+RUN \
+    cd $BUILD_BASE/toolchain && \
+    (ct-ng build.$(nproc) || cat build.log) && \
+    rm -rf $BUILD_BASE/toolchain
 
 USER root
+
+# Clean up
+# ----------------------------------------------------
+RUN \
+    rm -rf $BUILD_BASE && \
+    unset BUILD_BASE && \
+    chmod o-w $BASE && \
+    chown -R root:root $BASE && \
+    deluser ct-ng --remove-home
+
+ENV PATH="${PATH}:${BASE}/riscv64-unknown-linux-gnu/bin"
+
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 
 WORKDIR $BASE
 
