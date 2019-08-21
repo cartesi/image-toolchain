@@ -1,0 +1,33 @@
+version: 2.1
+jobs:
+  build-push:
+    machine: true
+    steps:
+      - checkout
+      - run:
+          name: Setting TOOLCHAIN_TAG environment variable
+          command: |
+            echo 'export CIRCLE_TAG=${CIRCLE_TAG:-vlatest}' >> $BASH_ENV
+            echo 'export TOOLCHAIN_TAG=${CIRCLE_TAG/v/''}' >> $BASH_ENV
+            source $BASH_ENV
+      - run:
+          name: Build
+          command: make build
+      - run:
+          name: Docker login
+          command: echo "$DOCKER_PASSWORD" | docker login --username "$DOCKER_LOGIN" --password-stdin
+      - run:
+          name: Push
+          command: make push
+
+workflows:
+  version: 2
+  build-push:
+    jobs:
+      - build-push:
+          context: Docker Hub
+          filters:
+            tags:
+              only: /^v.*/
+            branches:
+              only: master
