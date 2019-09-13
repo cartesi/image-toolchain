@@ -1,0 +1,19 @@
+name: DockerHub
+on:
+  push:
+    tags:
+      - 'v*'
+jobs:
+  build:
+    runs-on: ubuntu-18.04
+    env:
+      TAG: ${GITHUB_REF/refs\/tags\/v/''}
+    steps:
+      - uses: actions/checkout@v1
+      - run: docker build . -t cartesi/image-toolchain:${TAG} -t cartesi/image-toolchain:latest
+      - run: echo ${DOCKER_PASSWORD} | docker login --username ${DOCKER_USERNAME} --password-stdin
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+      - run: docker push cartesi/image-toolchain:${TAG}
+      - run: docker push cartesi/image-toolchain:latest
