@@ -14,13 +14,13 @@
 .PHONY: build push
 
 TOOLCHAIN_TAG ?= latest
-CONTAINER_BASE := /opt/cartesi/image-toolchain
+CONTAINER_BASE := /opt/cartesi/toolchain
 
 build:
-	docker build -t cartesi/image-toolchain:${TOOLCHAIN_TAG} .
+	docker build -t cartesi/toolchain:${TOOLCHAIN_TAG} .
 
 push:
-	docker push cartesi/image-toolchain:${TOOLCHAIN_TAG}
+	docker push cartesi/toolchain:${TOOLCHAIN_TAG}
 
 run:
 	docker run --hostname toolchain-env -it --rm \
@@ -30,8 +30,8 @@ run:
 		-e GID=$$(id -g) \
 		-v `pwd`:$(CONTAINER_BASE) \
 		-w $(CONTAINER_BASE) \
-		cartesi/image-toolchain:$(TOOLCHAIN_TAG) $(CONTAINER_COMMAND)
+		cartesi/toolchain:$(TOOLCHAIN_TAG) $(CONTAINER_COMMAND)
 
 run-as-root:
 	docker run --hostname toolchain-env -it --rm \
-		cartesi/image-toolchain:$(TOOLCHAIN_TAG) $(CONTAINER_COMMAND)
+		cartesi/toolchain:$(TOOLCHAIN_TAG) $(CONTAINER_COMMAND)

@@ -38,7 +38,7 @@ The following options are available as `make` targets:
 
 You can pass the following variables to the make target if you wish to use different docker image tags.
 
-- TOOLCHAIN\_TAG: image-toolchain image tag
+- TOOLCHAIN\_TAG: toolchain image tag
 
 ```
 $ make build TOOLCHAIN_TAG=mytag

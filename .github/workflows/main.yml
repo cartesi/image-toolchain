@@ -5,10 +5,10 @@ jobs:
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v1
-      - run: docker build -t docker.pkg.github.com/cartesi-corp/image-toolchain/image-toolchain:latest .
+      - run: docker build -t docker.pkg.github.com/cartesi-corp/image-toolchain/toolchain:latest .
       - run: echo $DOCKER_PASSWORD | docker login docker.pkg.github.com --username $DOCKER_USERNAME --password-stdin
         env:
           DOCKER_USERNAME: ${{ secrets.GITHUB_DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.GITHUB_DOCKER_PASSWORD }}
       - name: Docker push
-        run: docker push docker.pkg.github.com/cartesi-corp/image-toolchain/image-toolchain:latest
+        run: docker push docker.pkg.github.com/cartesi-corp/image-toolchain/toolchain:latest
