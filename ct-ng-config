@@ -18,7 +18,6 @@ CT_CONFIGURE_has_python_3_4_or_newer=y
 CT_CONFIGURE_has_bison_2_7_or_newer=y
 CT_CONFIGURE_has_python=y
 CT_CONFIGURE_has_dtc=y
-CT_CONFIGURE_has_svn=y
 CT_CONFIGURE_has_git=y
 CT_CONFIGURE_has_md5sum=y
 CT_CONFIGURE_has_sha1sum=y
@@ -576,20 +575,51 @@ CT_CC_LANG_OTHERS=""
 # Debug facilities
 #
 # CT_DEBUG_DUMA is not set
-# CT_DEBUG_GDB is not set
-# CT_GDB_USE_GNU is not set
-# CT_GDB_SRC_RELEASE is not set
+CT_DEBUG_GDB=y
+CT_DEBUG_GDB_PKG_KSYM="GDB"
+CT_GDB_DIR_NAME="gdb"
+CT_GDB_USE_GNU=y
+CT_GDB_USE="GDB"
+CT_GDB_PKG_NAME="gdb"
+CT_GDB_SRC_RELEASE=y
 # CT_GDB_SRC_DEVEL is not set
 # CT_GDB_SRC_CUSTOM is not set
-# CT_GDB_PATCH_GLOBAL is not set
+CT_GDB_PATCH_GLOBAL=y
 # CT_GDB_PATCH_BUNDLED is not set
 # CT_GDB_PATCH_LOCAL is not set
 # CT_GDB_PATCH_BUNDLED_LOCAL is not set
 # CT_GDB_PATCH_LOCAL_BUNDLED is not set
 # CT_GDB_PATCH_NONE is not set
-# CT_GDB_V_8_2 is not set
+CT_GDB_PATCH_ORDER="global"
+CT_GDB_V_8_2=y
 # CT_GDB_V_8_1 is not set
 # CT_GDB_V_8_0 is not set
+# CT_GDB_NO_VERSIONS is not set
+CT_GDB_VERSION="8.3.1"
+CT_GDB_MIRRORS="$(CT_Mirrors GNU gdb) $(CT_Mirrors sourceware gdb/releases)"
+CT_GDB_ARCHIVE_FILENAME="@{pkg_name}-@{version}"
+CT_GDB_ARCHIVE_DIRNAME="@{pkg_name}-@{version}"
+CT_GDB_ARCHIVE_FORMATS=".tar.xz .tar.gz"
+CT_GDB_SIGNATURE_FORMAT=""
+CT_GDB_later_than_8_0=y
+CT_GDB_8_0_or_later=y
+CT_GDB_REQUIRE_8_0_or_later=y
+CT_GDB_later_than_7_12=y
+CT_GDB_7_12_or_later=y
+CT_GDB_later_than_7_2=y
+CT_GDB_7_2_or_later=y
+CT_GDB_later_than_7_0=y
+CT_GDB_7_0_or_later=y
+# CT_GDB_CROSS is not set
+CT_GDB_NATIVE=y
+# CT_GDB_GDBSERVER is not set
+# CT_GDB_NATIVE_BUILD_IPA_LIB is not set
+# CT_GDB_NATIVE_STATIC is not set
+# CT_GDB_NATIVE_STATIC_LIBSTDCXX is not set
+CT_GDB_HAS_PKGVERSION_BUGURL=y
+CT_GDB_HAS_PYTHON=y
+CT_GDB_INSTALL_GDBINIT=y
+CT_GDB_HAS_IPA_LIB=y
 # CT_DEBUG_LTRACE is not set
 # CT_DEBUG_STRACE is not set
 CT_ALL_DEBUG_CHOICES="DUMA GDB LTRACE STRACE"
@@ -845,7 +875,9 @@ CT_GMP_NEEDED=y
 CT_MPFR_NEEDED=y
 CT_ISL_NEEDED=y
 CT_MPC_NEEDED=y
+CT_EXPAT_TARGET=y
 CT_NCURSES_NEEDED=y
+CT_NCURSES_TARGET=y
 CT_ZLIB_NEEDED=y
 CT_LIBICONV=y
 CT_GETTEXT=y
