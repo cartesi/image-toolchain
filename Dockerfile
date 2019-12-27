@@ -52,22 +52,18 @@ RUN \
 
 # Download and install crosstool-ng
 # ----------------------------------------------------
-COPY shasumfile $BUILD_BASE
-
 RUN \
     cd $BUILD_BASE && \
-    wget http://crosstool-ng.org/download/crosstool-ng/crosstool-ng-1.24.0.tar.xz && \
-    shasum -c shasumfile && \
-    tar -Jxvf crosstool-ng-1.24.0.tar.xz && \
-    rm -rf crosstool-ng-1.24.0.tar.xz && \
-    cd crosstool-ng-1.24.0/ && \
+    git clone https://github.com/crosstool-ng/crosstool-ng && \
+    cd crosstool-ng && \
+    git checkout -b gcc-9.2 7bd6bb002fe52edcefdb3c02111548237551ac37 && \
     ./bootstrap && \
     ./configure --prefix=/usr/local && \
     make && \
     make install && \
     rm -rf $BUILD_BASE
 
-# Build gcc 8.3 using crosstool-ng
+# Build gcc 9.2 using crosstool-ng
 # ----------------------------------------------------
 # Add user to run crosstool-ng (it is dangerous to run it as root),
 RUN \
