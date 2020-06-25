@@ -34,4 +34,6 @@ run:
 
 run-as-root:
 	docker run --hostname toolchain-env -it --rm \
+		-v `pwd`:$(CONTAINER_BASE) \
+		-w $(CONTAINER_BASE) \
 		cartesi/toolchain:$(TOOLCHAIN_TAG) $(CONTAINER_COMMAND)
