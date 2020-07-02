@@ -11,7 +11,7 @@
 # the License.
 #
 
-FROM ubuntu:18.04
+FROM ubuntu:20.04
 
 LABEL maintainer="Diego Nehab <diego@cartesi.io>"
 
@@ -67,7 +67,7 @@ RUN \
 # ----------------------------------------------------
 # Add user to run crosstool-ng (it is dangerous to run it as root),
 RUN \
-    adduser ct-ng --gecos ",,," --disabled-password
+    adduser developer --gecos ",,," --disabled-password
 
 RUN \
     mkdir -p $BUILD_BASE/toolchain
@@ -75,11 +75,11 @@ RUN \
 COPY ct-ng-config $BUILD_BASE/toolchain/.config
 
 RUN \
-    chown -R ct-ng:ct-ng $BUILD_BASE/toolchain && \
+    chown -R developer:developer $BUILD_BASE/toolchain && \
     chmod o+w $BUILD_BASE && \
     chmod o+w $BASE
 
-USER ct-ng
+USER developer
 
 COPY shasumfile $BUILD_BASE/shasumfile
 
@@ -99,8 +99,7 @@ RUN \
     rm -rf $BUILD_BASE && \
     unset BUILD_BASE && \
     chmod o-w $BASE && \
-    chown -R root:root $BASE && \
-    deluser ct-ng --remove-home
+    chown -R root:root $BASE
 
 ENV PATH="${PATH}:${BASE}/riscv64-unknown-linux-gnu/bin"
 

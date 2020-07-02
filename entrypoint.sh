@@ -25,7 +25,7 @@ else
   fi
   if [ ! $(getent passwd $USER) -a ! $(getent passwd $UID) ]; then
     echo Creating user $USER with id $UID
-    useradd -u $UID -g $GID $USER
+    useradd -u $UID -g $GID -G developer $USER
   else
     echo User name $USER or id $UID already exist
   fi
