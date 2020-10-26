@@ -48,6 +48,7 @@ CT_SAVE_TARBALLS=y
 # CT_TARBALLS_BUILDROOT_LAYOUT is not set
 CT_WORK_DIR="${CT_TOP_DIR}/.build"
 CT_BUILD_TOP_DIR="${CT_WORK_DIR:-${CT_TOP_DIR}/.build}/${CT_HOST:+HOST-${CT_HOST}/}${CT_TARGET}"
+CT_BUILD_DIR="${CT_BUILD_TOP_DIR}/build"
 CT_PREFIX_DIR="${CT_PREFIX:-${BASE}}/${CT_HOST:+HOST-${CT_HOST}/}${CT_TARGET}"
 CT_RM_RF_PREFIX_DIR=y
 CT_REMOVE_DOCS=y
@@ -243,7 +244,7 @@ CT_LINUX_PKG_NAME="linux"
 # CT_LINUX_SRC_RELEASE is not set
 # CT_LINUX_SRC_DEVEL is not set
 CT_LINUX_SRC_CUSTOM=y
-CT_LINUX_CUSTOM_LOCATION="/tmp/build/linux-5.5.19-ctsi-1.tar.gz"
+CT_LINUX_CUSTOM_LOCATION="/tmp/build/linux-5.5.19-ctsi-2.tar.gz"
 CT_LINUX_PATCH_GLOBAL=y
 # CT_LINUX_PATCH_BUNDLED is not set
 # CT_LINUX_PATCH_LOCAL is not set
@@ -252,6 +253,8 @@ CT_LINUX_PATCH_GLOBAL=y
 # CT_LINUX_PATCH_NONE is not set
 CT_LINUX_PATCH_ORDER="global"
 CT_LINUX_VERY_NEW=y
+# CT_LINUX_V_5_8 is not set
+# CT_LINUX_V_5_7 is not set
 # CT_LINUX_V_5_4 is not set
 # CT_LINUX_V_5_3 is not set
 # CT_LINUX_V_5_2 is not set
@@ -330,7 +333,9 @@ CT_BINUTILS_PATCH_GLOBAL=y
 # CT_BINUTILS_PATCH_LOCAL_BUNDLED is not set
 # CT_BINUTILS_PATCH_NONE is not set
 CT_BINUTILS_PATCH_ORDER="global"
-CT_BINUTILS_V_2_33=y
+CT_BINUTILS_V_2_35=y
+# CT_BINUTILS_V_2_34 is not set
+# CT_BINUTILS_V_2_33 is not set
 # CT_BINUTILS_V_2_32 is not set
 # CT_BINUTILS_V_2_31 is not set
 # CT_BINUTILS_V_2_30 is not set
@@ -339,7 +344,7 @@ CT_BINUTILS_V_2_33=y
 # CT_BINUTILS_V_2_27 is not set
 # CT_BINUTILS_V_2_26 is not set
 # CT_BINUTILS_NO_VERSIONS is not set
-CT_BINUTILS_VERSION="2.33.1"
+CT_BINUTILS_VERSION="2.35.1"
 CT_BINUTILS_MIRRORS="$(CT_Mirrors GNU binutils) $(CT_Mirrors sourceware binutils/releases)"
 CT_BINUTILS_ARCHIVE_FILENAME="@{pkg_name}-@{version}"
 CT_BINUTILS_ARCHIVE_DIRNAME="@{pkg_name}-@{version}"
@@ -402,20 +407,26 @@ CT_GLIBC_PATCH_GLOBAL=y
 # CT_GLIBC_PATCH_LOCAL_BUNDLED is not set
 # CT_GLIBC_PATCH_NONE is not set
 CT_GLIBC_PATCH_ORDER="global"
-CT_GLIBC_V_2_30=y
+CT_GLIBC_V_2_32=y
+# CT_GLIBC_V_2_31 is not set
+# CT_GLIBC_V_2_30 is not set
 # CT_GLIBC_V_2_29 is not set
 # CT_GLIBC_NO_VERSIONS is not set
-CT_GLIBC_VERSION="2.30"
+CT_GLIBC_VERSION="2.32"
 CT_GLIBC_MIRRORS="$(CT_Mirrors GNU glibc)"
 CT_GLIBC_ARCHIVE_FILENAME="@{pkg_name}-@{version}"
 CT_GLIBC_ARCHIVE_DIRNAME="@{pkg_name}-@{version}"
 CT_GLIBC_ARCHIVE_FORMATS=".tar.xz .tar.bz2 .tar.gz"
 CT_GLIBC_SIGNATURE_FORMAT="packed/.sig"
+CT_GLIBC_2_32_or_later=y
+CT_GLIBC_2_32_or_older=y
+CT_GLIBC_later_than_2_30=y
 CT_GLIBC_2_30_or_later=y
-CT_GLIBC_2_30_or_older=y
 CT_GLIBC_later_than_2_29=y
 CT_GLIBC_2_29_or_later=y
 CT_GLIBC_REQUIRE_2_29_or_later=y
+CT_GLIBC_later_than_2_28=y
+CT_GLIBC_2_28_or_later=y
 CT_GLIBC_later_than_2_27=y
 CT_GLIBC_2_27_or_later=y
 CT_GLIBC_later_than_2_26=y
@@ -460,7 +471,7 @@ CT_GLIBC_SSP_DEFAULT=y
 # CT_GLIBC_SSP_ALL is not set
 # CT_GLIBC_SSP_STRONG is not set
 # CT_GLIBC_ENABLE_WERROR is not set
-CT_ALL_LIBC_CHOICES="AVR_LIBC BIONIC GLIBC MINGW_W64 MOXIEBOX MUSL NEWLIB NONE UCLIBC"
+CT_ALL_LIBC_CHOICES="AVR_LIBC BIONIC GLIBC MINGW_W64 MOXIEBOX MUSL NEWLIB NONE PICOLIBC UCLIBC"
 CT_LIBC_SUPPORT_THREADS_ANY=y
 CT_LIBC_SUPPORT_THREADS_NATIVE=y
 
@@ -497,10 +508,9 @@ CT_GCC_USE_GNU=y
 # CT_GCC_USE_LINARO is not set
 CT_GCC_USE="GCC"
 CT_GCC_PKG_NAME="gcc"
-# CT_GCC_SRC_RELEASE is not set
+CT_GCC_SRC_RELEASE=y
 # CT_GCC_SRC_DEVEL is not set
-CT_GCC_SRC_CUSTOM=y
-CT_GCC_CUSTOM_LOCATION="/tmp/build/gcc-10.1.0.tar.gz"
+# CT_GCC_SRC_CUSTOM is not set
 CT_GCC_PATCH_GLOBAL=y
 # CT_GCC_PATCH_BUNDLED is not set
 # CT_GCC_PATCH_LOCAL is not set
@@ -508,17 +518,19 @@ CT_GCC_PATCH_GLOBAL=y
 # CT_GCC_PATCH_LOCAL_BUNDLED is not set
 # CT_GCC_PATCH_NONE is not set
 CT_GCC_PATCH_ORDER="global"
-CT_GCC_VERY_NEW=y
+CT_GCC_V_10=y
 # CT_GCC_V_9 is not set
 # CT_GCC_V_8 is not set
 # CT_GCC_V_7 is not set
 # CT_GCC_NO_VERSIONS is not set
-CT_GCC_VERSION="new"
+CT_GCC_VERSION="10.2.0"
 CT_GCC_MIRRORS="$(CT_Mirrors GNU gcc/gcc-${CT_GCC_VERSION}) $(CT_Mirrors sourceware gcc/releases/gcc-${CT_GCC_VERSION})"
 CT_GCC_ARCHIVE_FILENAME="@{pkg_name}-@{version}"
 CT_GCC_ARCHIVE_DIRNAME="@{pkg_name}-@{version}"
 CT_GCC_ARCHIVE_FORMATS=".tar.xz .tar.gz"
 CT_GCC_SIGNATURE_FORMAT=""
+CT_GCC_later_than_8=y
+CT_GCC_8_or_later=y
 CT_GCC_later_than_7=y
 CT_GCC_7_or_later=y
 CT_GCC_REQUIRE_7_or_later=y
@@ -607,12 +619,13 @@ CT_GDB_PATCH_GLOBAL=y
 # CT_GDB_PATCH_LOCAL_BUNDLED is not set
 # CT_GDB_PATCH_NONE is not set
 CT_GDB_PATCH_ORDER="global"
-CT_GDB_V_8_3=y
+CT_GDB_V_9_2=y
+# CT_GDB_V_8_3 is not set
 # CT_GDB_V_8_2 is not set
 # CT_GDB_V_8_1 is not set
 # CT_GDB_V_8_0 is not set
 # CT_GDB_NO_VERSIONS is not set
-CT_GDB_VERSION="8.3.1"
+CT_GDB_VERSION="9.2"
 CT_GDB_MIRRORS="$(CT_Mirrors GNU gdb) $(CT_Mirrors sourceware gdb/releases)"
 CT_GDB_ARCHIVE_FILENAME="@{pkg_name}-@{version}"
 CT_GDB_ARCHIVE_DIRNAME="@{pkg_name}-@{version}"
@@ -643,43 +656,7 @@ CT_GDB_HAS_PYTHON=y
 CT_GDB_INSTALL_GDBINIT=y
 CT_GDB_HAS_IPA_LIB=y
 # CT_DEBUG_LTRACE is not set
-# CT_LTRACE_SRC_RELEASE is not set
-# CT_LTRACE_SRC_DEVEL is not set
-# CT_LTRACE_SRC_CUSTOM is not set
-# CT_LTRACE_PATCH_GLOBAL is not set
-# CT_LTRACE_PATCH_BUNDLED is not set
-# CT_LTRACE_PATCH_LOCAL is not set
-# CT_LTRACE_PATCH_BUNDLED_LOCAL is not set
-# CT_LTRACE_PATCH_LOCAL_BUNDLED is not set
-# CT_LTRACE_PATCH_NONE is not set
-# CT_LTRACE_V_0_7_3 is not set
 # CT_DEBUG_STRACE is not set
-# CT_STRACE_SRC_RELEASE is not set
-# CT_STRACE_SRC_DEVEL is not set
-# CT_STRACE_SRC_CUSTOM is not set
-# CT_STRACE_PATCH_GLOBAL is not set
-# CT_STRACE_PATCH_BUNDLED is not set
-# CT_STRACE_PATCH_LOCAL is not set
-# CT_STRACE_PATCH_BUNDLED_LOCAL is not set
-# CT_STRACE_PATCH_LOCAL_BUNDLED is not set
-# CT_STRACE_PATCH_NONE is not set
-# CT_STRACE_V_5_4 is not set
-# CT_STRACE_V_5_3 is not set
-# CT_STRACE_V_5_2 is not set
-# CT_STRACE_V_5_1 is not set
-# CT_STRACE_V_5_0 is not set
-# CT_STRACE_V_4_26 is not set
-# CT_STRACE_V_4_25 is not set
-# CT_STRACE_V_4_24 is not set
-# CT_STRACE_V_4_23 is not set
-# CT_STRACE_V_4_22 is not set
-# CT_STRACE_V_4_21 is not set
-# CT_STRACE_V_4_20 is not set
-# CT_STRACE_V_4_19 is not set
-# CT_STRACE_V_4_18 is not set
-# CT_STRACE_V_4_17 is not set
-# CT_STRACE_V_4_16 is not set
-# CT_STRACE_V_4_15 is not set
 CT_ALL_DEBUG_CHOICES="DUMA GDB LTRACE STRACE"
 
 #
@@ -704,10 +681,10 @@ CT_EXPAT_PATCH_ORDER="global"
 CT_EXPAT_V_2_2=y
 # CT_EXPAT_NO_VERSIONS is not set
 CT_EXPAT_VERSION="2.2.9"
-CT_EXPAT_MIRRORS="http://downloads.sourceforge.net/project/expat/expat/${CT_EXPAT_VERSION}"
+CT_EXPAT_MIRRORS="http://downloads.sourceforge.net/project/expat/expat/${CT_EXPAT_VERSION} https://github.com/libexpat/libexpat/releases/download/R_${CT_EXPAT_VERSION//./_}"
 CT_EXPAT_ARCHIVE_FILENAME="@{pkg_name}-@{version}"
 CT_EXPAT_ARCHIVE_DIRNAME="@{pkg_name}-@{version}"
-CT_EXPAT_ARCHIVE_FORMATS=".tar.bz2"
+CT_EXPAT_ARCHIVE_FORMATS=".tar.xz .tar.lz .tar.bz2 .tar.gz"
 CT_EXPAT_SIGNATURE_FORMAT=""
 CT_COMP_LIBS_GETTEXT=y
 CT_COMP_LIBS_GETTEXT_PKG_KSYM="GETTEXT"
@@ -746,9 +723,10 @@ CT_GMP_PATCH_GLOBAL=y
 # CT_GMP_PATCH_LOCAL_BUNDLED is not set
 # CT_GMP_PATCH_NONE is not set
 CT_GMP_PATCH_ORDER="global"
-CT_GMP_V_6_1=y
+CT_GMP_V_6_2=y
+# CT_GMP_V_6_1 is not set
 # CT_GMP_NO_VERSIONS is not set
-CT_GMP_VERSION="6.1.2"
+CT_GMP_VERSION="6.2.0"
 CT_GMP_MIRRORS="https://gmplib.org/download/gmp https://gmplib.org/download/gmp/archive $(CT_Mirrors GNU gmp)"
 CT_GMP_ARCHIVE_FILENAME="@{pkg_name}-@{version}"
 CT_GMP_ARCHIVE_DIRNAME="@{pkg_name}-@{version}"
@@ -818,7 +796,7 @@ CT_LIBELF_PATCH_ORDER="global"
 CT_LIBELF_V_0_8=y
 # CT_LIBELF_NO_VERSIONS is not set
 CT_LIBELF_VERSION="0.8.13"
-CT_LIBELF_MIRRORS="http://www.mr511.de/software https://fossies.org/linux/misc/old"
+CT_LIBELF_MIRRORS="https://fossies.org/linux/misc/old"
 CT_LIBELF_ARCHIVE_FILENAME="@{pkg_name}-@{version}"
 CT_LIBELF_ARCHIVE_DIRNAME="@{pkg_name}-@{version}"
 CT_LIBELF_ARCHIVE_FORMATS=".tar.gz"
@@ -860,6 +838,7 @@ CT_MPC_PATCH_GLOBAL=y
 # CT_MPC_PATCH_LOCAL_BUNDLED is not set
 # CT_MPC_PATCH_NONE is not set
 CT_MPC_PATCH_ORDER="global"
+# CT_MPC_V_1_2 is not set
 CT_MPC_V_1_1=y
 # CT_MPC_V_1_0 is not set
 # CT_MPC_NO_VERSIONS is not set
@@ -885,10 +864,11 @@ CT_MPFR_PATCH_GLOBAL=y
 # CT_MPFR_PATCH_LOCAL_BUNDLED is not set
 # CT_MPFR_PATCH_NONE is not set
 CT_MPFR_PATCH_ORDER="global"
-CT_MPFR_V_4_0=y
+CT_MPFR_V_4_1=y
+# CT_MPFR_V_4_0 is not set
 # CT_MPFR_V_3_1 is not set
 # CT_MPFR_NO_VERSIONS is not set
-CT_MPFR_VERSION="4.0.2"
+CT_MPFR_VERSION="4.1.0"
 CT_MPFR_MIRRORS="http://www.mpfr.org/mpfr-${CT_MPFR_VERSION} $(CT_Mirrors GNU mpfr)"
 CT_MPFR_ARCHIVE_FILENAME="@{pkg_name}-@{version}"
 CT_MPFR_ARCHIVE_DIRNAME="@{pkg_name}-@{version}"
@@ -913,10 +893,11 @@ CT_NCURSES_PATCH_GLOBAL=y
 # CT_NCURSES_PATCH_LOCAL_BUNDLED is not set
 # CT_NCURSES_PATCH_NONE is not set
 CT_NCURSES_PATCH_ORDER="global"
-CT_NCURSES_V_6_1=y
+CT_NCURSES_V_6_2=y
+# CT_NCURSES_V_6_1 is not set
 # CT_NCURSES_V_6_0 is not set
 # CT_NCURSES_NO_VERSIONS is not set
-CT_NCURSES_VERSION="6.1"
+CT_NCURSES_VERSION="6.2"
 CT_NCURSES_MIRRORS="ftp://invisible-island.net/ncurses $(CT_Mirrors GNU ncurses)"
 CT_NCURSES_ARCHIVE_FILENAME="@{pkg_name}-@{version}"
 CT_NCURSES_ARCHIVE_DIRNAME="@{pkg_name}-@{version}"

@@ -28,7 +28,7 @@ RUN \
     apt-get update && \
     apt-get install --no-install-recommends -y \
         build-essential autoconf automake libtool libtool-bin autotools-dev \
-        git make pkg-config patchutils gawk bison flex ca-certificates \
+        git make pkg-config patchutils gawk bison flex ca-certificates gnupg \
         device-tree-compiler libmpc-dev libmpfr-dev libgmp-dev rsync cpio \
         libusb-1.0-0-dev texinfo gperf bc zlib1g-dev libncurses-dev genext2fs \
         wget vim wget curl zip unzip libexpat-dev python python3 help2man && \
@@ -56,7 +56,7 @@ RUN \
     cd $BUILD_BASE && \
     git clone https://github.com/crosstool-ng/crosstool-ng && \
     cd crosstool-ng && \
-    git checkout -b custom_version 7bd6bb002fe52edcefdb3c02111548237551ac37 && \
+    git checkout -b custom_version dd20ee5526b08baf97ca559e93d7546ec0746cfa && \
     ./bootstrap && \
     ./configure --prefix=/usr/local && \
     make && \
@@ -84,12 +84,11 @@ USER developer
 COPY shasumfile $BUILD_BASE/shasumfile
 
 RUN \
-    wget -O $BUILD_BASE/gcc-10.1.0.tar.gz https://gnu.freemirror.org/gnu/gcc/gcc-10.1.0/gcc-10.1.0.tar.gz && \
-    wget -O $BUILD_BASE/linux-5.5.19-ctsi-1.tar.gz https://github.com/cartesi/linux/archive/v5.5.19-ctsi-1.tar.gz && \
+    wget -O $BUILD_BASE/linux-5.5.19-ctsi-2.tar.gz https://github.com/cartesi/linux/archive/v5.5.19-ctsi-2.tar.gz && \
     cd $BUILD_BASE && sha1sum -c shasumfile && \
     cd $BUILD_BASE/toolchain && \
     (ct-ng build.$(nproc) || cat build.log) && \
-    rm -rf $BUILD_BASE/toolchain $BUILD_BASE/gcc-10.1.0.tar.gz $BUILD_BASE/linux-5.5.19-ctsi-1.tar.gz
+    rm -rf $BUILD_BASE/toolchain $BUILD_BASE/linux-5.5.19-ctsi-2.tar.gz
 
 USER root
 
