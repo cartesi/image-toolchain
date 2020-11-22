@@ -100,7 +100,7 @@ RUN \
     chmod o-w $BASE && \
     chown -R root:root $BASE
 
-ENV PATH="${PATH}:${BASE}/riscv64-unknown-linux-gnu/bin"
+ENV PATH="${PATH}:${BASE}/riscv64-cartesi-linux-gnu/bin"
 
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 
