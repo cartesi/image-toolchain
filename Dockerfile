@@ -67,7 +67,7 @@ RUN \
 # ----------------------------------------------------
 # Add user to run crosstool-ng (it is dangerous to run it as root),
 RUN \
-    adduser developer --gecos ",,," --disabled-password
+    adduser developer -u 499 --gecos ",,," --disabled-password
 
 RUN \
     mkdir -p $BUILD_BASE/toolchain
