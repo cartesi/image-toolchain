@@ -32,5 +32,12 @@ else
   export HOME=/home/$USER
   mkdir -p $HOME
   chown $USER:$GROUP $HOME
+
+# Workaround for issue with su-exec tty ownership
+# Should be removed once ticket https://github.com/ncopa/su-exec/issues/33 
+# is resolved, or alternative solution with reusing file descriptors is found
+  CURRENT_TTY=`tty`
+  chown $USER:$GROUP $CURRENT_TTY
+
   exec /usr/local/bin/su-exec $USER "$@"
 fi
