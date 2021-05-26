@@ -14,10 +14,17 @@
 .PHONY: build push
 
 TOOLCHAIN_TAG ?= latest
+TOOLCHAIN_CONFIG ?= configs/ct-ng-config-default
 CONTAINER_BASE := /opt/cartesi/toolchain
 
+ifeq ($(fd_emulation),yes)
+TOOLCHAIN_CONFIG = configs/ct-ng-config-lp64d
+endif
+
+BUILD_ARGS = --build-arg TOOLCHAIN_CONFIG=$(TOOLCHAIN_CONFIG)
+
 build:
-	docker build -t cartesi/toolchain:${TOOLCHAIN_TAG} .
+	docker build -t cartesi/toolchain:${TOOLCHAIN_TAG} $(BUILD_ARGS) .
 
 push:
 	docker push cartesi/toolchain:${TOOLCHAIN_TAG}

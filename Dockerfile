@@ -15,6 +15,8 @@ FROM ubuntu:20.04
 
 LABEL maintainer="Diego Nehab <diego@cartesi.io>"
 
+ARG TOOLCHAIN_CONFIG=configs/ct-ng-config-default
+
 ENV DEBIAN_FRONTEND=noninteractive
 
 ENV BASE "/opt/riscv"
@@ -72,7 +74,7 @@ RUN \
 RUN \
     mkdir -p $BUILD_BASE/toolchain
 
-COPY ct-ng-config $BUILD_BASE/toolchain/.config
+COPY $TOOLCHAIN_CONFIG $BUILD_BASE/toolchain/.config
 
 RUN \
     chown -R developer:developer $BUILD_BASE/toolchain && \
