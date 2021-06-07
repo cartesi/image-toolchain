@@ -13,7 +13,7 @@
 
 .PHONY: build push
 
-TOOLCHAIN_TAG ?= latest
+TOOLCHAIN_TAG ?= devel
 TOOLCHAIN_CONFIG ?= configs/ct-ng-config-default
 CONTAINER_BASE := /opt/cartesi/toolchain
 

@@ -14,28 +14,40 @@
 #
 
 if [ -z "$GID" -o -z "$UID" -o -z "$USER" -o -z "$GROUP" ]; then
-    echo Running as root
+    echo Running as $(whoami)
     exec "$@"
 else
-  if [ ! $(getent group $GROUP) -a ! $(getent group $GID) ]; then
+  if [ ! $(getent group $GID) ]; then
+    if [ $(getent group $GROUP) ]; then
+      echo Group name $GROUP already exists
+      GROUP=container-group-$GID
+    fi
     groupadd -g $GID $GROUP
   else
-    echo Group name $GROUP or id $GID already exist
+    echo The id $GID of group $GROUP already exists
   fi
-  if [ ! $(getent passwd $USER) -a ! $(getent passwd $UID) ]; then
+  if [ ! $(getent passwd $UID) ]; then
+    if [ $(getent passwd $USER) ]; then
+      echo User name $USER already exists.
+      USER=container-user-$UID
+    fi
     useradd -u $UID -g $GID -G developer $USER
   else
-    echo User name $USER or id $UID already exist
+    echo The id $UID of user $USER already exists
   fi
-  export HOME=/home/$USER
+  USERNAME=$(id -nu $UID)
+  export HOME=/home/$USERNAME
   mkdir -p $HOME
-  chown $USER:$GROUP $HOME
+  chown $UID:$GID $HOME
 
 # Workaround for issue with su-exec tty ownership
-# Should be removed once ticket https://github.com/ncopa/su-exec/issues/33 
+# Should be removed once ticket https://github.com/ncopa/su-exec/issues/33
 # is resolved, or alternative solution with reusing file descriptors is found
-  CURRENT_TTY=`tty`
-  chown $USER:$GROUP $CURRENT_TTY
+# Test if stdin or stdout is associated with a terminal
+  if [ -t 0 -o -t 1 ]; then
+    chown $UID:$GID $(/usr/bin/tty)
+  fi
 
-  exec /usr/local/bin/su-exec $USER "$@"
+  echo Running as $USERNAME and group $(id -ng $UID)
+  exec /usr/local/bin/su-exec $USERNAME "$@"
 fi
