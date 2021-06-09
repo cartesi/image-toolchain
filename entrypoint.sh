@@ -43,8 +43,8 @@ else
 # Workaround for issue with su-exec tty ownership
 # Should be removed once ticket https://github.com/ncopa/su-exec/issues/33
 # is resolved, or alternative solution with reusing file descriptors is found
-# Test if stdin or stdout is associated with a terminal
-  if [ -t 0 -o -t 1 ]; then
+# Test if stdin is associated with a terminal
+  if [ -t 0 ]; then
     chown $UID:$GID $(/usr/bin/tty)
   fi
 
