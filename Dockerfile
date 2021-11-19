@@ -86,11 +86,11 @@ USER developer
 COPY shasumfile $BUILD_BASE/shasumfile
 
 RUN \
-    wget -O $BUILD_BASE/linux-5.5.19-ctsi-2.tar.gz https://github.com/cartesi/linux/archive/v5.5.19-ctsi-2.tar.gz && \
+    wget -O $BUILD_BASE/linux-5.5.19-ctsi-3.tar.gz https://github.com/cartesi/linux/archive/v5.5.19-ctsi-3.tar.gz && \
     cd $BUILD_BASE && sha1sum -c shasumfile && \
     cd $BUILD_BASE/toolchain && \
     (ct-ng build.$(nproc) || (cat build.log && exit 1)) && \
-    rm -rf $BUILD_BASE/toolchain $BUILD_BASE/linux-5.5.19-ctsi-2.tar.gz
+    rm -rf $BUILD_BASE/toolchain $BUILD_BASE/linux-5.5.19-ctsi-3.tar.gz
 
 USER root
 
