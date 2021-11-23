@@ -94,6 +94,29 @@ RUN \
 
 USER root
 
+# Install Rust tools
+# ----------------------------------------------------
+
+# Get Rust
+ENV CARGO_HOME=/opt/.cargo/
+ENV RUSTUP_HOME=/opt/.rustup/
+ENV PATH="/opt/.cargo/bin:${PATH}"
+
+RUN \
+    wget https://github.com/rust-lang/rustup/archive/refs/tags/1.24.3.tar.gz && \
+    echo "24a8cede4ccbbf45ab7b8de141d92f47d1881bb546b3b9180d5a51dc0622d0f6  1.24.3.tar.gz" | sha256sum --check && \
+    tar xf 1.24.3.tar.gz && \
+    bash rustup-1.24.3/rustup-init.sh -y && \
+    rm -rf 1.24.3.tar.gz rustup-1.24.3 && \
+    rustup install stable && \
+    rustup default nightly && \
+    rustup component add rust-src --toolchain nightly-x86_64-unknown-linux-gnu
+
+RUN \
+    mkdir -p /opt/.cargo/registry && \
+    chmod -R o+w /opt/.cargo/registry && \
+    chmod -R o+w /opt/.rustup/settings.toml
+
 # Clean up
 # ----------------------------------------------------
 RUN \
