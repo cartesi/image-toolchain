@@ -80,5 +80,7 @@ jobs:
           builder: ${{ steps.buildx.outputs.name }}
           platforms: linux/amd64
           tags: ${{ steps.docker_meta.outputs.tags }}
-          push: ${{ startsWith(github.ref, 'refs/tags/v') || (github.ref == 'refs/heads/develop') }}
+          push: false
+          # do not push fd images for now
+          # push: ${{ startsWith(github.ref, 'refs/tags/v') || (github.ref == 'refs/heads/develop') }}
 
