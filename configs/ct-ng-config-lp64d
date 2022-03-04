@@ -244,7 +244,7 @@ CT_LINUX_PKG_NAME="linux"
 # CT_LINUX_SRC_RELEASE is not set
 # CT_LINUX_SRC_DEVEL is not set
 CT_LINUX_SRC_CUSTOM=y
-CT_LINUX_CUSTOM_LOCATION="/tmp/build/linux-5.5.19-ctsi-3.tar.gz"
+CT_LINUX_CUSTOM_LOCATION="/tmp/build/linux-5.5.19-ctsi-4.tar.gz"
 CT_LINUX_PATCH_GLOBAL=y
 # CT_LINUX_PATCH_BUNDLED is not set
 # CT_LINUX_PATCH_LOCAL is not set
