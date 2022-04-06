@@ -32,7 +32,7 @@ RUN \
         build-essential autoconf automake libtool libtool-bin autotools-dev \
         git make pkg-config patchutils gawk bison flex ca-certificates gnupg \
         device-tree-compiler libmpc-dev libmpfr-dev libgmp-dev rsync cpio \
-        libusb-1.0-0-dev texinfo gperf bc zlib1g-dev libncurses-dev genext2fs \
+        libusb-1.0-0-dev texinfo gperf bc zlib1g-dev libncurses-dev \
         wget vim wget curl zip unzip libexpat-dev python python3 help2man && \
     rm -rf /var/lib/apt/lists/*
 
@@ -116,6 +116,23 @@ RUN \
     mkdir -p /opt/.cargo/registry && \
     chmod -R o+w /opt/.cargo/registry && \
     chmod -R o+w /opt/.rustup/settings.toml
+
+# Install genext2fs
+# ----------------------------------------------------
+
+RUN \
+    cd $BUILD_BASE && \
+    wget https://github.com/bestouff/genext2fs/archive/refs/tags/v1.5.0.tar.gz && \
+    echo "d3861e4fe89131bd21fbd25cf0b683b727b5c030c4c336fadcd738ada830aab0  v1.5.0.tar.gz" | sha256sum --check && \
+    tar xf v1.5.0.tar.gz && \
+    rm -rf v1.5.0.tar.gz && \
+    cd genext2fs-1.5.0 && \
+    ./autogen.sh && \
+    ./configure && \
+    make && \
+    make install && \
+    rm -rf $BUILD_BASE
+    
 
 # Clean up
 # ----------------------------------------------------
