@@ -110,7 +110,7 @@ RUN \
     rm -rf 1.24.3.tar.gz rustup-1.24.3 && \
     rustup install stable && \
     rustup default nightly && \
-    rustup component add rust-src --toolchain nightly-x86_64-unknown-linux-gnu
+    rustup component add rust-src --toolchain nightly
 
 RUN \
     mkdir -p /opt/.cargo/registry && \
