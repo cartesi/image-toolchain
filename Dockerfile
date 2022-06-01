@@ -109,8 +109,8 @@ RUN \
     bash rustup-1.24.3/rustup-init.sh -y && \
     rm -rf 1.24.3.tar.gz rustup-1.24.3 && \
     rustup install stable && \
-    rustup default nightly && \
-    rustup component add rust-src --toolchain nightly
+    rustup default nightly-2022-04-19 && \
+    rustup component add rust-src --toolchain nightly-2022-04-19
 
 RUN \
     mkdir -p /opt/.cargo/registry && \
