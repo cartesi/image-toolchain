@@ -106,11 +106,12 @@ RUN \
     wget https://github.com/rust-lang/rustup/archive/refs/tags/1.24.3.tar.gz && \
     echo "24a8cede4ccbbf45ab7b8de141d92f47d1881bb546b3b9180d5a51dc0622d0f6  1.24.3.tar.gz" | sha256sum --check && \
     tar xf 1.24.3.tar.gz && \
-    bash rustup-1.24.3/rustup-init.sh -y && \
-    rm -rf 1.24.3.tar.gz rustup-1.24.3 && \
-    rustup install stable && \
-    rustup default nightly-2022-04-19 && \
-    rustup component add rust-src --toolchain nightly-2022-04-19
+    bash rustup-1.24.3/rustup-init.sh \
+        -y \
+        --default-toolchain nightly-2022-04-19 \
+        --profile minimal \
+        --component rust-src && \
+    rm -rf 1.24.3.tar.gz rustup-1.24.3
 
 RUN \
     mkdir -p /opt/.cargo/registry && \
