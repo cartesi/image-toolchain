@@ -16,14 +16,17 @@
 TOOLCHAIN_TAG ?= devel
 TOOLCHAIN_CONFIG ?= configs/ct-ng-config-default
 CONTAINER_BASE := /opt/cartesi/toolchain
+KERNEL_VERSION ?= 5.5.19-ctsi-5
+KERNEL_SRCPATH := linux-$(KERNEL_VERSION).tar.gz
 
 ifeq ($(fd_emulation),yes)
 TOOLCHAIN_CONFIG = configs/ct-ng-config-lp64d
 endif
 
-BUILD_ARGS = --build-arg TOOLCHAIN_CONFIG=$(TOOLCHAIN_CONFIG)
+BUILD_ARGS = --build-arg TOOLCHAIN_CONFIG=$(TOOLCHAIN_CONFIG) \
+             --build-arg KERNEL_VERSION=$(KERNEL_VERSION)
 
-build:
+build: $(KERNEL_SRCPATH)
 	docker build -t cartesi/toolchain:${TOOLCHAIN_TAG} $(BUILD_ARGS) .
 
 push:
@@ -44,3 +47,8 @@ run-as-root:
 		-v `pwd`:$(CONTAINER_BASE) \
 		-w $(CONTAINER_BASE) \
 		cartesi/toolchain:$(TOOLCHAIN_TAG) $(CONTAINER_COMMAND)
+
+# fetch the public cartesi linux sources if none was provided
+$(KERNEL_SRCPATH):
+	wget -O $@ https://github.com/cartesi/linux/archive/v$(KERNEL_VERSION).tar.gz
+	echo "1c01f13ae98724682fdda6dc9f6cee078b3e8eca $@" | sha1sum -c || exit 1

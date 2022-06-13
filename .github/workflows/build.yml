@@ -1,5 +1,7 @@
 name: Docker
 on: [push]
+env:
+  KERNEL_VERSION: 5.5.19-ctsi-5
 jobs:
   build:
     runs-on: ubuntu-22.04
@@ -29,6 +31,12 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
+      - name: Download linux
+        run: >
+          gh release download -R ${{ github.repository_owner }}/linux v${{ env.KERNEL_VERSION }} --archive=tar.gz
+        env:
+          GITHUB_TOKEN: ${{ secrets.CI_TOKEN }}
+
       - name: Build and push docker image
         id: docker_build
         uses: docker/build-push-action@v2
@@ -38,6 +46,8 @@ jobs:
           platforms: linux/amd64
           tags: ${{ steps.docker_meta.outputs.tags }}
           push: ${{ startsWith(github.ref, 'refs/tags/v') || (github.ref == 'refs/heads/develop') }}
+          build-args: |
+            KERNEL_VERSION=${{ env.KERNEL_VERSION }}
 
   # Create a separate job for fd-emulation to speed up the process
   build-fd-emulation:
@@ -71,12 +81,20 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
+      - name: Download linux
+        run: >
+          gh release download -R ${{ github.repository_owner }}/linux v${{ env.KERNEL_VERSION }} --archive=tar.gz
+        env:
+          GITHUB_TOKEN: ${{ secrets.CI_TOKEN }}
+
       - name: Build and push docker image
         id: docker_build
         uses: docker/build-push-action@v2
         with:
           context: .
-          build-args: TOOLCHAIN_CONFIG=configs/ct-ng-config-lp64d
+          build-args: |
+            TOOLCHAIN_CONFIG=configs/ct-ng-config-lp64d
+            KERNEL_VERSION=${{ env.KERNEL_VERSION }}
           builder: ${{ steps.buildx.outputs.name }}
           platforms: linux/amd64
           tags: ${{ steps.docker_meta.outputs.tags }}

@@ -56,6 +56,19 @@ $ make run TOOLCHAIN_TAG=latest
 $ make run
 ```
 
+- KERNEL\_VERSION: kernel version that the toolchain headers will be based upon.
+
+### Customize toolchain headers
+
+You can select different kernel versions to extract the headers from.
+To do this download the linux source code and move it into the file: `linux-$(KERNEL_VERSION).tar.gz`.
+
+Then call make with KERNEL\_VERSION specified
+
+```
+make KERNEL_VERSION=5.5.19-ctsi-5
+```
+
 ## Contributing
 
 Thank you for your interest in Cartesi! Head over to our [Contributing Guidelines](CONTRIBUTING.md) for instructions on how to sign our Contributors Agreement and get started with Cartesi!

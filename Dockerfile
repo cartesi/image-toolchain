@@ -15,6 +15,7 @@ FROM ubuntu:22.04
 
 LABEL maintainer="Diego Nehab <diego@cartesi.io>"
 
+ARG KERNEL_VERSION # define on makefile or CI
 ARG TOOLCHAIN_CONFIG=configs/ct-ng-config-default
 
 ENV DEBIAN_FRONTEND=noninteractive
@@ -83,14 +84,11 @@ RUN \
 
 USER developer
 
-COPY shasumfile $BUILD_BASE/shasumfile
-
+COPY linux-$KERNEL_VERSION.tar.gz $BUILD_BASE/linux-$KERNEL_VERSION.tar.gz
 RUN \
-    wget -O $BUILD_BASE/linux-5.5.19-ctsi-5.tar.gz https://github.com/cartesi/linux/archive/v5.5.19-ctsi-5.tar.gz && \
-    cd $BUILD_BASE && sha1sum -c shasumfile && \
     cd $BUILD_BASE/toolchain && \
     (ct-ng build.$(nproc) || (cat build.log && exit 1)) && \
-    rm -rf $BUILD_BASE/toolchain $BUILD_BASE/linux-5.5.19-ctsi-5.tar.gz
+    rm -rf $BUILD_BASE/toolchain $BUILD_BASE/linux-$KERNEL_VERSION.tar.gz
 
 USER root
 
