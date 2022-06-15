@@ -8,10 +8,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Changed
 - Reduce Rust installation size
+- Download linux sources from the same github org
+- Add option to specify the kernel version the toolchain provides
 
 ## [0.9.1] - 2022-06-02
 ### Changed
-- Build Rust for arm as well as x86_64
+- Build Rust for arm as well as x86\_64
 - Fixed Rust nightly version
 
 ### Changed
