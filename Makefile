@@ -51,4 +51,4 @@ run-as-root:
 # fetch the public cartesi linux sources if none was provided
 $(KERNEL_SRCPATH):
 	wget -O $@ https://github.com/cartesi/linux/archive/v$(KERNEL_VERSION).tar.gz
-	echo "1c01f13ae98724682fdda6dc9f6cee078b3e8eca $@" | sha1sum -c || exit 1
+	echo "4266d1c3d56f79088d9328521bcdb5ad9c385cd9ea8f28457cc61658f43092f4  $@" | shasum -ca 256 || exit 1
