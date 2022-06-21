@@ -6,12 +6,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [0.10.0] - 2022-06-22
+
 ### Changed
 - Reduce Rust installation size
 - Download linux sources from the same github org
 - Add option to specify the kernel version the toolchain provides
 
 ## [0.9.1] - 2022-06-02
+
 ### Changed
 - Build Rust for arm as well as x86\_64
 - Fixed Rust nightly version
@@ -57,7 +61,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [0.2.0]
 - [0.1.0]
 
-[Unreleased]: https://github.com/cartesi/image-toolchain/compare/v0.9.1...HEAD
+[Unreleased]: https://github.com/cartesi/image-toolchain/compare/v0.10.0...HEAD
+[0.10.0]: https://github.com/cartesi/image-toolchain/releases/tag/v0.10.0
 [0.9.1]: https://github.com/cartesi/image-toolchain/releases/tag/v0.9.1
 [0.9.0]: https://github.com/cartesi/image-toolchain/releases/tag/v0.9.0
 [0.8.0]: https://github.com/cartesi/image-toolchain/releases/tag/v0.8.0
