@@ -23,6 +23,12 @@ If you want to tag the image with custom name you can do the following:
 $ make build TOOLCHAIN_TAG=mytag
 ```
 
+If you want to remove the temporary downloaded files for a clean build:
+
+```bash
+$ make clean
+```
+
 To remove the generated images from your system, please refer to the Docker documentation.
 
 #### Makefile targets
@@ -33,6 +39,7 @@ The following options are available as `make` targets:
 - **run**: runs the generated image with current user UID and GID
 - **run-as-root**: runs the generated image as root
 - **push**: pushes the image to the registry repository
+- **clean**: cleans temporary downloaded files
 
 #### Makefile container options
 

@@ -11,7 +11,7 @@
 # the License.
 #
 
-.PHONY: build push
+.PHONY: build push clean
 
 TOOLCHAIN_TAG ?= devel
 TOOLCHAIN_CONFIG ?= configs/ct-ng-config-default
@@ -52,3 +52,6 @@ run-as-root:
 $(KERNEL_SRCPATH):
 	wget -O $@ https://github.com/cartesi/linux/archive/v$(KERNEL_VERSION).tar.gz
 	echo "4266d1c3d56f79088d9328521bcdb5ad9c385cd9ea8f28457cc61658f43092f4  $@" | shasum -ca 256 || exit 1
+
+clean:
+	rm -f $(KERNEL_SRCPATH)
