@@ -73,7 +73,7 @@ To do this download the linux source code and move it into the file: `linux-$(KE
 Then call make with KERNEL\_VERSION specified
 
 ```
-make KERNEL_VERSION=5.5.19-ctsi-5
+make KERNEL_VERSION=5.5.19-ctsi-6
 ```
 
 ## Contributing
@@ -91,4 +91,3 @@ Please note we have a [Code of Conduct](CODE_OF_CONDUCT.md), please follow it in
 
 The image-toolchain repository and all contributions are licensed under
 [APACHE 2.0](https://www.apache.org/licenses/LICENSE-2.0). Please review our [LICENSE](LICENSE) file.
-

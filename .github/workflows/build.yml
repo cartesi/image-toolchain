@@ -1,7 +1,7 @@
 name: Docker
 on: [push]
 env:
-  KERNEL_VERSION: 5.5.19-ctsi-5
+  KERNEL_VERSION: 5.5.19-ctsi-6
 jobs:
   build:
     runs-on: ubuntu-22.04
@@ -101,4 +101,3 @@ jobs:
           push: false
           # do not push fd images for now
           # push: ${{ startsWith(github.ref, 'refs/tags/v') || (github.ref == 'refs/heads/develop') }}
-
