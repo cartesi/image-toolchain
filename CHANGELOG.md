@@ -8,8 +8,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Changed
+- Cache docker build and push in CI
+
 ## [0.11.0] - 2022-08-29
 
+### Changed
 - Updated Linux Kernel to v5.5.19-ctsi-6
 
 ## [0.10.0] - 2022-06-22
