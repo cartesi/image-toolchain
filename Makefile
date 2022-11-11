@@ -19,10 +19,6 @@ CONTAINER_BASE := /opt/cartesi/toolchain
 KERNEL_VERSION ?= 5.5.19-ctsi-6
 KERNEL_SRCPATH := linux-$(KERNEL_VERSION).tar.gz
 
-ifeq ($(fd_emulation),yes)
-TOOLCHAIN_CONFIG = configs/ct-ng-config-lp64d
-endif
-
 BUILD_ARGS = --build-arg TOOLCHAIN_CONFIG=$(TOOLCHAIN_CONFIG) \
              --build-arg KERNEL_VERSION=$(KERNEL_VERSION)
 
