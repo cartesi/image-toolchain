@@ -7,8 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.12.0] - 2022-11-16
+
 ### Changed
+- Updated the kernel to v5.15.63-ctsi-1
 - Cache docker build and push in CI
+- Create a imafd toolchain by default
 
 ## [0.11.0] - 2022-08-29
 
@@ -69,7 +73,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [0.2.0]
 - [0.1.0]
 
-[Unreleased]: https://github.com/cartesi/image-toolchain/compare/v0.11.0...HEAD
+[Unreleased]: https://github.com/cartesi/image-toolchain/compare/v0.12.0...HEAD
+[0.12.0]: https://github.com/cartesi/image-toolchain/releases/tag/v0.12.0
 [0.11.0]: https://github.com/cartesi/image-toolchain/releases/tag/v0.11.0
 [0.10.0]: https://github.com/cartesi/image-toolchain/releases/tag/v0.10.0
 [0.9.1]: https://github.com/cartesi/image-toolchain/releases/tag/v0.9.1

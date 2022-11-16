@@ -16,7 +16,7 @@
 TOOLCHAIN_TAG ?= devel
 TOOLCHAIN_CONFIG ?= configs/ct-ng-config-default
 CONTAINER_BASE := /opt/cartesi/toolchain
-KERNEL_VERSION ?= 5.5.19-ctsi-6
+KERNEL_VERSION ?= 5.15.63-ctsi-1
 KERNEL_SRCPATH := linux-$(KERNEL_VERSION).tar.gz
 
 BUILD_ARGS = --build-arg TOOLCHAIN_CONFIG=$(TOOLCHAIN_CONFIG) \
@@ -47,7 +47,7 @@ run-as-root:
 # fetch the public cartesi linux sources if none was provided
 $(KERNEL_SRCPATH):
 	wget -O $@ https://github.com/cartesi/linux/archive/v$(KERNEL_VERSION).tar.gz
-	echo "c665a5eb0ac12ad457fc7cab74cb98570f0ce158942baad8923d4d3e36beda5b  $@" | shasum -ca 256 || exit 1
+	echo "aab7bea88397081f027476a6f52c67adbb4d24378b04073a6feba724503a63ba  $@" | shasum -ca 256 || exit 1
 
 clean:
 	rm -f $(KERNEL_SRCPATH)
