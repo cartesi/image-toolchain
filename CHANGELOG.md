@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.13.0] - 2023-02-10
+
 ### Changed
 - Create a RV64GC toolchain by default
 
@@ -76,7 +78,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [0.2.0]
 - [0.1.0]
 
-[Unreleased]: https://github.com/cartesi/image-toolchain/compare/v0.12.0...HEAD
+[Unreleased]: https://github.com/cartesi/image-toolchain/compare/v0.13.0...HEAD
+[0.13.0]: https://github.com/cartesi/image-toolchain/releases/tag/v0.13.0
 [0.12.0]: https://github.com/cartesi/image-toolchain/releases/tag/v0.12.0
 [0.11.0]: https://github.com/cartesi/image-toolchain/releases/tag/v0.11.0
 [0.10.0]: https://github.com/cartesi/image-toolchain/releases/tag/v0.10.0
