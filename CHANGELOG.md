@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.14.0] - 2023-02-29
+
+### Changed
+- Updated the kernel to v5.15.63-ctsi-2
+
 ## [0.13.0] - 2023-02-10
 
 ### Changed

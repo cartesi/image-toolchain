@@ -73,7 +73,7 @@ To do this download the linux source code and move it into the file: `linux-$(KE
 Then call make with KERNEL\_VERSION specified
 
 ```
-make KERNEL_VERSION=5.5.19-ctsi-6
+make KERNEL_VERSION=5.15.63-ctsi-2
 ```
 
 ## Contributing
@@ -81,11 +81,6 @@ make KERNEL_VERSION=5.5.19-ctsi-6
 Thank you for your interest in Cartesi! Head over to our [Contributing Guidelines](CONTRIBUTING.md) for instructions on how to sign our Contributors Agreement and get started with Cartesi!
 
 Please note we have a [Code of Conduct](CODE_OF_CONDUCT.md), please follow it in all your interactions with the project.
-
-## Authors
-
-* *Diego Nehab*
-* *Victor Fusco*
 
 ## License
 

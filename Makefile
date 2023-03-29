@@ -16,7 +16,7 @@
 TOOLCHAIN_TAG ?= devel
 TOOLCHAIN_CONFIG ?= configs/ct-ng-config-default
 CONTAINER_BASE := /opt/cartesi/toolchain
-KERNEL_VERSION ?= 5.15.63-ctsi-1
+KERNEL_VERSION ?= 5.15.63-ctsi-2
 KERNEL_SRCPATH := linux-$(KERNEL_VERSION).tar.gz
 
 BUILD_ARGS = --build-arg TOOLCHAIN_CONFIG=$(TOOLCHAIN_CONFIG) \
