@@ -11,7 +11,7 @@
 # the License.
 #
 
-FROM ubuntu:22.04
+FROM debian:bullseye-20230502
 
 LABEL maintainer="Diego Nehab <diego@cartesi.io>"
 
