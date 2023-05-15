@@ -46,9 +46,9 @@ jobs:
 
       - name: Download linux
         run: >
-          gh release download -R ${{ github.repository_owner }}/linux v${{ env.KERNEL_VERSION }} --archive=tar.gz
+          gh release download -R cartesi/linux v${{ env.KERNEL_VERSION }} --archive=tar.gz
         env:
-          GITHUB_TOKEN: ${{ secrets.CI_TOKEN }}
+          GH_TOKEN: ${{ github.token }}
 
       - uses: depot/setup-action@v1
       - name: Build and push docker image
@@ -107,9 +107,9 @@ jobs:
 
       - name: Download linux
         run: >
-          gh release download -R ${{ github.repository_owner }}/linux v${{ env.KERNEL_VERSION }} --archive=tar.gz
+          gh release download -R cartesi/linux v${{ env.KERNEL_VERSION }} --archive=tar.gz
         env:
-          GITHUB_TOKEN: ${{ secrets.CI_TOKEN }}
+          GH_TOKEN: ${{ github.token }}
 
       - name: Build and push docker image
         id: docker_build
