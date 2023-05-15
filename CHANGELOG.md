@@ -8,6 +8,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Changed
+## [0.11.0-bullseye] - 2023-05-16
+
+- Change base image from ubuntu to bullseye
+- Pushing images to ghcr.io in addition to docker.io registry
+- Build for arm64 using depot.dev
+
+### Changed
 ## [0.11.0] - 2022-08-29
 
 - Updated Linux Kernel to v5.5.19-ctsi-6
