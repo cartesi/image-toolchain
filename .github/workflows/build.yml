@@ -32,10 +32,7 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Download linux
-        run: >
-          gh release download -R cartesi/linux v${{ env.KERNEL_VERSION }} --archive=tar.gz
-        env:
-          GH_TOKEN: ${{ github.token }}
+        run: make download
 
       - name: Build and push docker image
         id: docker_build

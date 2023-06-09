@@ -11,7 +11,7 @@
 # the License.
 #
 
-.PHONY: build push clean
+.PHONY: build push download clean
 
 TOOLCHAIN_TAG ?= devel
 TOOLCHAIN_CONFIG ?= configs/ct-ng-config-default
@@ -47,7 +47,9 @@ run-as-root:
 # fetch the public cartesi linux sources if none was provided
 $(KERNEL_SRCPATH):
 	wget -O $@ https://github.com/cartesi/linux/archive/v$(KERNEL_VERSION).tar.gz
-	echo "aab7bea88397081f027476a6f52c67adbb4d24378b04073a6feba724503a63ba  $@" | shasum -ca 256 || exit 1
+	echo "e8d4d1882632eac7fd8e433b4eb4db014fd56e645fdad3b89be7d1ca4f20ca07  $@" | shasum -ca 256 || exit 1
+
+download: $(KERNEL_SRCPATH)
 
 clean:
 	rm -f $(KERNEL_SRCPATH)
