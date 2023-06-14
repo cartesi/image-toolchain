@@ -1,4 +1,4 @@
-# Copyright 2019-2022 Cartesi Pte. Ltd.
+# Copyright 2019-2023 Cartesi Pte. Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License"); you may not
 # use this file except in compliance with the License. You may obtain a copy of
@@ -11,9 +11,9 @@
 # the License.
 #
 
-FROM ubuntu:22.04
+FROM debian:bookworm-20230612 as ct-ng-builder
 
-LABEL maintainer="Diego Nehab <diego@cartesi.io>"
+LABEL maintainer="Machine Reference Unit <https://discord.com/channels/600597137524391947/1107965671976992878>"
 
 ARG KERNEL_VERSION # define on makefile or CI
 ARG TOOLCHAIN_CONFIG=configs/ct-ng-config-default
@@ -66,7 +66,8 @@ RUN \
     make install && \
     rm -rf $BUILD_BASE
 
-# Build gcc 9.2 using crosstool-ng
+FROM ct-ng-builder as toolchain-builder
+# Build gcc using crosstool-ng
 # ----------------------------------------------------
 # Add user to run crosstool-ng (it is dangerous to run it as root),
 RUN \
@@ -92,6 +93,7 @@ RUN \
 
 USER root
 
+FROM toolchain-builder as rust-builder
 # Install Rust tools
 # ----------------------------------------------------
 
