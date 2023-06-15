@@ -22,7 +22,7 @@ KERNEL_SRCPATH := linux-$(KERNEL_VERSION).tar.gz
 BUILD_ARGS = --build-arg TOOLCHAIN_CONFIG=$(TOOLCHAIN_CONFIG) \
              --build-arg KERNEL_VERSION=$(KERNEL_VERSION)
 
-build: $(KERNEL_SRCPATH)
+build: checksum
 	docker build -t cartesi/toolchain:${TOOLCHAIN_TAG} $(BUILD_ARGS) .
 
 push:
