@@ -103,20 +103,19 @@ ENV RUSTUP_HOME=/opt/.rustup/
 ENV PATH="/opt/.cargo/bin:${PATH}"
 
 RUN \
-    wget https://github.com/rust-lang/rustup/archive/refs/tags/1.24.3.tar.gz && \
-    echo "24a8cede4ccbbf45ab7b8de141d92f47d1881bb546b3b9180d5a51dc0622d0f6  1.24.3.tar.gz" | sha256sum --check && \
-    tar xf 1.24.3.tar.gz && \
-    bash rustup-1.24.3/rustup-init.sh \
+    wget https://github.com/rust-lang/rustup/archive/refs/tags/1.25.2.tar.gz && \
+    echo "dc9bb5d3dbac5cea9afa9b9c3c96fcf644a1e7ed6188a6b419dfe3605223b5f3  1.25.2.tar.gz" | sha256sum --check && \
+    tar xf 1.25.2.tar.gz && \
+    bash rustup-1.25.2/rustup-init.sh \
         -y \
-        --default-toolchain nightly-2022-04-19 \
+        --default-toolchain 1.70.0 \
         --profile minimal \
-        --component rust-src && \
-    rm -rf 1.24.3.tar.gz rustup-1.24.3
-
-RUN \
+        --target riscv64gc-unknown-linux-gnu && \
     mkdir -p /opt/.cargo/registry && \
     chmod -R o+w /opt/.cargo/registry && \
-    chmod -R o+w /opt/.rustup/settings.toml
+    chmod -R o+w /opt/.rustup/settings.toml && \
+    echo "[target.riscv64gc-unknown-linux-gnu]\nlinker = \"riscv64-cartesi-linux-gnu-gcc\"" >> /opt/.cargo/config.toml && \
+    rm -rf 1.25.2.tar.gz rustup-1.25.2
 
 # Clean up
 # ----------------------------------------------------
