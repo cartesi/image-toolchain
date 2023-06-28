@@ -31,7 +31,7 @@ else
       echo User name $USER already exists.
       USER=container-user-$UID
     fi
-    useradd -u $UID -g $GID -G developer $USER
+    useradd -u $UID -g $GID -G $GROUP $USER
   else
     echo The id $UID of user $USER already exists
   fi
