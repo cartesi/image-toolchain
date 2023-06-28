@@ -25,9 +25,6 @@ ENV BASE "/opt/riscv"
 ENV BUILD_BASE "/tmp/build"
 
 RUN \
-    mkdir -p $BASE $BUILD_BASE
-
-RUN \
     apt-get update && \
     apt-get install --no-install-recommends -y \
         build-essential autoconf automake libtool libtool-bin autotools-dev \
@@ -37,6 +34,10 @@ RUN \
         wget vim wget curl zip unzip libexpat-dev python3 help2man && \
     rm -rf /var/lib/apt/lists/*
 
+RUN \
+    adduser developer -u 499 --gecos ",,," --disabled-password && \
+    mkdir -m 775 -p $BASE $BUILD_BASE && \
+    chown -R root:developer $BASE $BUILD_BASE
 
 # Install workaround to run as current user
 # ----------------------------------------------------
@@ -51,7 +52,9 @@ RUN \
     cd su-exec && \
     if [ `git rev-parse --verify HEAD` != 'f85e5bde1afef399021fbc2a99c837cf851ceafa' ]; then exit 1; fi && \
     make && \
-    cp su-exec /usr/local/bin/
+    cp su-exec /usr/local/bin/ && \
+    rm -rf $BUILD_BASE/su-exec
+
 
 # Download and install crosstool-ng
 # ----------------------------------------------------
@@ -64,71 +67,78 @@ RUN \
     ./configure --prefix=/usr/local && \
     make && \
     make install && \
-    rm -rf $BUILD_BASE
+    rm -rf $BUILD_BASE/crosstool-ng
 
-FROM ct-ng-builder as toolchain-builder
 # Build gcc using crosstool-ng
 # ----------------------------------------------------
-# Add user to run crosstool-ng (it is dangerous to run it as root),
-RUN \
-    adduser developer -u 499 --gecos ",,," --disabled-password
+FROM ct-ng-builder as toolchain-builder
 
-RUN \
-    mkdir -p $BUILD_BASE/toolchain
+COPY $TOOLCHAIN_CONFIG $BUILD_BASE/ct-ng-config
 
-COPY $TOOLCHAIN_CONFIG $BUILD_BASE/toolchain/.config
-
-RUN \
-    chown -R developer:developer $BUILD_BASE/toolchain && \
-    chmod o+w $BUILD_BASE && \
-    chmod o+w $BASE
-
+# Change user to run crosstool-ng (it is dangerous to run it as root)
 USER developer
 
 COPY linux-$KERNEL_VERSION.tar.gz $BUILD_BASE/linux-$KERNEL_VERSION.tar.gz
 RUN \
-    cd $BUILD_BASE/toolchain && \
+    mkdir -p $BUILD_BASE/gcc && \
+    cd $BUILD_BASE/gcc && \
+    cp $BUILD_BASE/ct-ng-config .config && \
     (ct-ng build.$(nproc) || (cat build.log && exit 1)) && \
-    rm -rf $BUILD_BASE/toolchain $BUILD_BASE/linux-$KERNEL_VERSION.tar.gz
+    rm -rf $BUILD_BASE/gcc $BUILD_BASE/linux-$KERNEL_VERSION.tar.gz
 
 USER root
 
-FROM toolchain-builder as rust-builder
+ENV PATH="${BASE}/riscv64-cartesi-linux-gnu/bin/:${PATH}"
+
+# On Debian bash -l overwrites the PATH variable, so we need to set it again
+RUN \
+    echo "export PATH=\"${BASE}/riscv64-cartesi-linux-gnu/bin:\$PATH\"" >> /etc/profile.d/riscv64-cartesi-linux-gnu.sh && \
+    chown -R root:root $BASE/riscv64-cartesi-linux-gnu
+
 # Install Rust tools
 # ----------------------------------------------------
+FROM toolchain-builder as rust-builder
 
 # Get Rust
-ENV CARGO_HOME=/opt/.cargo/
-ENV RUSTUP_HOME=/opt/.rustup/
-ENV PATH="/opt/.cargo/bin:${PATH}"
+ENV CARGO_HOME=$BASE/rust/cargo
+ENV RUSTUP_HOME=$BASE/rust/rustup
 
+USER developer
 RUN \
+    mkdir -p $BUILD_BASE/rust && \
+    cd $BUILD_BASE/rust && \
     wget https://github.com/rust-lang/rustup/archive/refs/tags/1.25.2.tar.gz && \
     echo "dc9bb5d3dbac5cea9afa9b9c3c96fcf644a1e7ed6188a6b419dfe3605223b5f3  1.25.2.tar.gz" | sha256sum --check && \
     tar xf 1.25.2.tar.gz && \
+    export CARGO_HOME=$BASE/rust/cargo/ && \
     bash rustup-1.25.2/rustup-init.sh \
         -y \
         --default-toolchain 1.70.0 \
         --profile minimal \
         --target riscv64gc-unknown-linux-gnu && \
-    mkdir -p /opt/.cargo/registry && \
-    chmod -R o+w /opt/.cargo/registry && \
-    chmod -R o+w /opt/.rustup/settings.toml && \
-    echo "[target.riscv64gc-unknown-linux-gnu]\nlinker = \"riscv64-cartesi-linux-gnu-gcc\"" >> /opt/.cargo/config.toml && \
-    rm -rf 1.25.2.tar.gz rustup-1.25.2
+    echo "[target.riscv64gc-unknown-linux-gnu]\nlinker = \"riscv64-cartesi-linux-gnu-gcc\"" >> $CARGO_HOME/config.toml && \
+    mkdir -p $CARGO_HOME/registry && \
+    chmod -R o+w $CARGO_HOME/registry && \
+    chmod o+w $RUSTUP_HOME/settings.toml && \
+    rm -rf $BUILD_BASE/rust
+
+USER root
+
+ENV PATH="${CARGO_HOME}/bin:${PATH}"
+
+# On Debian bash -l overwrites the PATH variable, so we need to set it again
+RUN \
+    echo "export PATH=\"${CARGO_HOME}/bin:\$PATH\"" >> /etc/profile.d/riscv64gc-rust.sh
+
+FROM rust-builder as toolchain
 
 # Clean up
-# ----------------------------------------------------
 RUN \
-    rm -rf $BUILD_BASE && \
-    unset BUILD_BASE && \
-    chmod o-w $BASE && \
-    chown -R root:root $BASE
-
-ENV PATH="${PATH}:${BASE}/riscv64-cartesi-linux-gnu/bin"
-
-ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
+    chown root:root $BASE && \
+    rm -rf $BUILD_BASE
 
 WORKDIR $BASE
+
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 
 CMD ["/bin/bash", "-l"]
