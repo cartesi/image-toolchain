@@ -16,7 +16,7 @@ FROM debian:bookworm-20230612 as ct-ng-builder
 LABEL maintainer="Machine Reference Unit <https://discord.com/channels/600597137524391947/1107965671976992878>"
 
 ARG KERNEL_VERSION # define on makefile or CI
-ARG TOOLCHAIN_CONFIG=configs/ct-ng-config-default
+ARG TOOLCHAIN_CONFIG=configs/ct-ng-config
 
 ENV DEBIAN_FRONTEND=noninteractive
 

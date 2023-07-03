@@ -13,9 +13,10 @@
 
 .PHONY: build push download clean checksum
 
-TOOLCHAIN_TAG ?= devel
-TOOLCHAIN_CONFIG ?= configs/ct-ng-config-default
-CONTAINER_BASE := /opt/cartesi/toolchain
+TOOLCHAIN_SUFFIX ?=
+TOOLCHAIN_TAG ?= devel$(TOOLCHAIN_SUFFIX)
+TOOLCHAIN_CONFIG ?= configs/ct-ng-config$(TOOLCHAIN_SUFFIX)
+CONTAINER_BASE := /opt/cartesi/toolchain$(TOOLCHAIN_SUFFIX)
 KERNEL_VERSION ?= 5.15.63-ctsi-2
 KERNEL_SRCPATH := linux-$(KERNEL_VERSION).tar.gz
 

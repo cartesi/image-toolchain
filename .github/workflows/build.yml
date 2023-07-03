@@ -8,6 +8,9 @@ jobs:
     permissions:
       packages: write
       contents: read
+    strategy:
+      matrix:
+        config: ["", "-rv64ima-lp64"]
     steps:
       - name: Checkout Source Code
         uses: actions/checkout@v3
@@ -30,8 +33,8 @@ jobs:
             ghcr.io/${{ github.repository_owner }}/toolchain
             docker.io/${{ github.repository_owner }}/toolchain,enable=${{ github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/release/') || startsWith(github.ref, 'refs/tags/v') }}
           tags: |
-            type=ref,event=branch
-            type=semver,pattern={{version}}
+            type=ref,event=branch,suffix=${{ matrix.config }}
+            type=semver,pattern={{version}},suffix=${{ matrix.config }}
 
       - name: Login to Docker Hub
         uses: docker/login-action@v2
@@ -59,5 +62,6 @@ jobs:
           push: true
           build-args: |
             KERNEL_VERSION=${{ env.KERNEL_VERSION }}
+            TOOLCHAIN_CONFIG=configs/ct-ng-config${{ matrix.config }}
           project: ${{ vars.DEPOT_PROJECT }}
           token: ${{ secrets.DEPOT_TOKEN }}
