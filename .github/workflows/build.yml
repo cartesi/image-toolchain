@@ -1,7 +1,7 @@
 name: Docker
 on: [push]
 env:
-  KERNEL_VERSION: 5.15.63-ctsi-2
+  KERNEL_VERSION: 6.5.9-ctsi-1
 jobs:
   build:
     runs-on: ubuntu-22.04
