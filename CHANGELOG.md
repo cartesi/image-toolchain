@@ -6,9 +6,25 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [0.15.0] - 2023-08-11
+### Added
+- Added support for Linux/ARM64 images
+- Added support fot the GitHub registry
+- Added support for building multiple toolchains (RV64G and RV64IMA)
+
 ### Changed
+- Changed base image from Ubuntu 22.04 to Debian Bookworm
+- Refactored download target dependency on Makefile
+- Updated the version of some workflow actions
+- Updated Rust toolchain version
 - Added support for multiple configurations in CI
 - Updated license/copyright notice in all source code
+
+### Fixed
+- Fixed Linux download of linux source on CI
+- Fixed docker build cache parameters
+- Fixed kernel source shasum
 
 ## [0.14.0] - 2023-02-29
 
@@ -86,7 +102,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [0.2.0]
 - [0.1.0]
 
-[Unreleased]: https://github.com/cartesi/image-toolchain/compare/v0.13.0...HEAD
+[Unreleased]: https://github.com/cartesi/image-toolchain/compare/v0.15.0...HEAD
+[0.15.0]: https://github.com/cartesi/image-toolchain/releases/tag/v0.15.0
+[0.14.0]: https://github.com/cartesi/image-toolchain/releases/tag/v0.14.0
 [0.13.0]: https://github.com/cartesi/image-toolchain/releases/tag/v0.13.0
 [0.12.0]: https://github.com/cartesi/image-toolchain/releases/tag/v0.12.0
 [0.11.0]: https://github.com/cartesi/image-toolchain/releases/tag/v0.11.0
