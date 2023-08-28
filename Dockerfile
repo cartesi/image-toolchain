@@ -33,7 +33,7 @@ RUN \
         build-essential autoconf automake libtool libtool-bin autotools-dev \
         git make pkg-config patchutils gawk bison flex ca-certificates gnupg \
         device-tree-compiler libmpc-dev libmpfr-dev libgmp-dev rsync cpio \
-        libusb-1.0-0-dev texinfo gperf bc zlib1g-dev libncurses-dev genext2fs \
+        libusb-1.0-0-dev texinfo gperf bc zlib1g-dev libncurses-dev \
         wget vim wget curl zip unzip libexpat-dev python3 help2man && \
     rm -rf /var/lib/apt/lists/*
 
@@ -133,10 +133,34 @@ ENV PATH="${CARGO_HOME}/bin:${PATH}"
 RUN \
     echo "export PATH=\"${CARGO_HOME}/bin:\$PATH\"" >> /etc/profile.d/riscv64gc-rust.sh
 
+FROM debian:bookworm-20230725 as genext2fs-builder
+ARG GENEXT2FS_VERSION=1.5.2
+ARG TARGETARCH
+ARG DESTDIR=release
+
+WORKDIR /usr/src/genext2fs
+RUN apt update \
+&&  apt install -y --no-install-recommends \
+      automake \
+      autotools-dev \
+      build-essential \
+      curl ca-certificates \
+      libarchive-dev
+RUN curl -sL https://github.com/cartesi/genext2fs/archive/refs/tags/v${GENEXT2FS_VERSION}.tar.gz | tar --strip-components=1 -zxvf - \
+&&  ./autogen.sh \
+&&  ./configure --enable-libarchive --prefix=/usr \
+&&  make install DESTDIR=${DESTDIR} \
+&&  mkdir -p ${DESTDIR}/DEBIAN \
+&& dpkg-deb -Zxz --root-owner-group --build ${DESTDIR} genext2fs.deb
+
 FROM rust-builder as toolchain
 
+COPY --from=genext2fs-builder /usr/src/genext2fs/genext2fs.deb $BUILD_BASE/
 # Clean up
-RUN \
+RUN apt update && \
+    apt install -y --no-install-recommends \
+      $BUILD_BASE/genext2fs.deb && \
+    rm -rf /var/lib/apt/lists/* && \
     chown root:root $BASE && \
     rm -rf $BUILD_BASE
 
