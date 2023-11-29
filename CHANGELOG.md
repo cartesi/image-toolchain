@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.16.0] - 2023-11-30
+### Changed
+- Updated linux kernel to v6.5.9-ctsi-1
+- Updated crosstoll-ng to 1.26.0
+- Updated gcc to 12.3.0
+- Updated rustup to 1.26.0
+- Updated rust to 1.74.0
+- Updated debian bookworm base image
+
 ## [0.15.0] - 2023-08-11
 ### Added
 - Added support for Linux/ARM64 images
@@ -102,7 +111,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [0.2.0]
 - [0.1.0]
 
-[Unreleased]: https://github.com/cartesi/image-toolchain/compare/v0.15.0...HEAD
+[Unreleased]: https://github.com/cartesi/image-toolchain/compare/v0.16.0...HEAD
+[0.16.0]: https://github.com/cartesi/image-toolchain/releases/tag/v0.16.0
 [0.15.0]: https://github.com/cartesi/image-toolchain/releases/tag/v0.15.0
 [0.14.0]: https://github.com/cartesi/image-toolchain/releases/tag/v0.14.0
 [0.13.0]: https://github.com/cartesi/image-toolchain/releases/tag/v0.13.0
