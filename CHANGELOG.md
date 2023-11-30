@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added support for Linux/ARM64 images
 - Added support fot the GitHub registry
 - Added support for building multiple toolchains (RV64G and RV64IMA)
+- Added xgenext2fs to image
 
 ### Changed
 - Changed base image from Ubuntu 22.04 to Debian Bookworm

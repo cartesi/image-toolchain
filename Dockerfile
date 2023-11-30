@@ -20,6 +20,7 @@ LABEL maintainer="Machine Reference Unit <https://discord.com/channels/600597137
 
 ARG KERNEL_VERSION # define on makefile or CI
 ARG TOOLCHAIN_CONFIG=configs/ct-ng-config
+ARG TARGETARCH
 
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -33,8 +34,19 @@ RUN \
         build-essential autoconf automake libtool libtool-bin autotools-dev \
         git make pkg-config patchutils gawk bison flex ca-certificates gnupg \
         device-tree-compiler libmpc-dev libmpfr-dev libgmp-dev rsync cpio \
-        libusb-1.0-0-dev texinfo gperf bc zlib1g-dev libncurses-dev genext2fs \
+        libusb-1.0-0-dev texinfo gperf bc zlib1g-dev libncurses-dev \
         wget vim wget curl zip unzip libexpat-dev python3 help2man && \
+    rm -rf /var/lib/apt/lists/*
+
+RUN \
+    wget -O /tmp/xgenext2fs.deb https://github.com/cartesi/genext2fs/releases/download/v1.15.3/xgenext2fs_${TARGETARCH}.deb && \
+    case ${TARGETARCH} in \
+      amd64) echo "f34bc34253209f6c024b97723eac7573eccb7ab62034d3d99e60df438c3458a5  /tmp/xgenext2fs.deb" | sha256sum --check ;; \
+      arm64) echo "9e6cee8e9e9e8bb5b0c51f666b848ea7a1a97e663058dcdb37a17bde76ad221a  /tmp/xgenext2fs.deb" | sha256sum --check ;; \
+    esac && \
+    apt-get update && \
+    apt-get install --no-install-recommends -y \
+      /tmp/xgenext2fs.deb && \
     rm -rf /var/lib/apt/lists/*
 
 RUN \
