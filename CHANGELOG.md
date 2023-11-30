@@ -16,12 +16,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Updated rust to 1.74.0
 - Updated debian bookworm base image
 
+### Added
+- Added xgenext2fs to image
+
 ## [0.15.0] - 2023-08-11
 ### Added
 - Added support for Linux/ARM64 images
 - Added support fot the GitHub registry
 - Added support for building multiple toolchains (RV64G and RV64IMA)
-- Added xgenext2fs to image
 
 ### Changed
 - Changed base image from Ubuntu 22.04 to Debian Bookworm
