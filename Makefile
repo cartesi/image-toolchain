@@ -48,9 +48,15 @@ run-as-root:
 		-w $(CONTAINER_BASE) \
 		cartesi/toolchain:$(TOOLCHAIN_TAG) $(CONTAINER_COMMAND)
 
-# fetch the public cartesi linux sources if none was provided
+ifneq ($(DEV),y)
 $(KERNEL_SRCPATH):
 	@wget -O $@ https://github.com/cartesi/linux/archive/v$(KERNEL_VERSION).tar.gz
+else
+$(KERNEL_SRCPATH):
+	wget -O $@ https://github.com/cartesi/linux/archive/refs/heads/$(KERNEL_VERSION).tar.gz
+	$(MAKE) shasumfile # rebuild the shasumfile
+	sed -i 's#CT_LINUX_CUSTOM_LOCATION=".\+"#CT_LINUX_CUSTOM_LOCATION="/tmp/build/linux-$(KERNEL_VERSION).tar.gz"#' $(TOOLCHAIN_CONFIG) # patch the config file
+endif
 
 shasumfile: $(KERNEL_SRCPATH)
 	@shasum -a 256 $^ > $@
