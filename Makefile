@@ -20,7 +20,7 @@ TOOLCHAIN_SUFFIX ?=
 TOOLCHAIN_TAG ?= devel$(TOOLCHAIN_SUFFIX)
 TOOLCHAIN_CONFIG ?= configs/ct-ng-config$(TOOLCHAIN_SUFFIX)
 CONTAINER_BASE := /opt/cartesi/toolchain$(TOOLCHAIN_SUFFIX)
-KERNEL_VERSION ?= 6.5.9-ctsi-1
+KERNEL_VERSION ?= 6.5.13-ctsi-1
 KERNEL_SRCPATH := linux-$(KERNEL_VERSION).tar.gz
 
 BUILD_ARGS = --build-arg TOOLCHAIN_CONFIG=$(TOOLCHAIN_CONFIG) \
@@ -60,5 +60,8 @@ checksum: $(KERNEL_SRCPATH)
 
 download: checksum
 
-clean:
+env:
+	@echo KERNEL_VERSION="$(KERNEL_VERSION)"
+
+clean distclean:
 	rm -f $(KERNEL_SRCPATH)
