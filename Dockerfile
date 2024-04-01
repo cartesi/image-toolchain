@@ -31,7 +31,7 @@ ENV BUILD_BASE "/tmp/build"
 RUN \
     apt-get update && \
     apt-get install --no-install-recommends -y \
-        build-essential autoconf automake libtool libtool-bin autotools-dev \
+        build-essential autoconf automake libtool libtool-bin autotools-dev libclang-dev \
         git make pkg-config patchutils gawk bison flex ca-certificates gnupg \
         device-tree-compiler libmpc-dev libmpfr-dev libgmp-dev rsync cpio \
         libusb-1.0-0-dev texinfo gperf bc zlib1g-dev libncurses-dev \
