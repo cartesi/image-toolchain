@@ -122,13 +122,13 @@ USER developer
 RUN \
     mkdir -p $BUILD_BASE/rust && \
     cd $BUILD_BASE/rust && \
-    wget https://github.com/rust-lang/rustup/archive/refs/tags/1.26.0.tar.gz && \
-    echo "6f20ff98f2f1dbde6886f8d133fe0d7aed24bc76c670ea1fca18eb33baadd808  1.26.0.tar.gz" | sha256sum --check && \
-    tar xf 1.26.0.tar.gz && \
+    wget https://github.com/rust-lang/rustup/archive/refs/tags/1.27.0.tar.gz && \
+    echo "3d331ab97d75b03a1cc2b36b2f26cd0a16d681b79677512603f2262991950ad1  1.27.0.tar.gz" | sha256sum --check && \
+    tar xf 1.27.0.tar.gz && \
     export CARGO_HOME=$BASE/rust/cargo/ && \
-    bash rustup-1.26.0/rustup-init.sh \
+    bash rustup-1.27.0/rustup-init.sh \
         -y \
-        --default-toolchain 1.74.0 \
+        --default-toolchain 1.77.2 \
         --profile minimal \
         --target riscv64gc-unknown-linux-gnu && \
     echo "[target.riscv64gc-unknown-linux-gnu]\nlinker = \"riscv64-cartesi-linux-gnu-gcc\"" >> $CARGO_HOME/config.toml && \
