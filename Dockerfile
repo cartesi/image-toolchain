@@ -39,10 +39,10 @@ RUN \
     rm -rf /var/lib/apt/lists/*
 
 RUN \
-    wget -O /tmp/xgenext2fs.deb https://github.com/cartesi/genext2fs/releases/download/v1.5.3/xgenext2fs_${TARGETARCH}.deb && \
+    wget -O /tmp/xgenext2fs.deb https://github.com/cartesi/genext2fs/releases/download/v1.5.5/xgenext2fs_${TARGETARCH}.deb && \
     case ${TARGETARCH} in \
-      amd64) echo "a5e52d86d0bf4c2f9cc38370ea762dc5aee502a86abf8520798acbebd9d7f68f  /tmp/xgenext2fs.deb" | sha256sum --check ;; \
-      arm64) echo "54051a31a10ba5e4f472b8eeaa47c82f3d2e744991995b8ef6981b4c1ba424c2  /tmp/xgenext2fs.deb" | sha256sum --check ;; \
+      amd64) echo "e42857c454a772553e2bec5e73ac499b39d35dbf622bdb4cbb1b19fe98f62999  /tmp/xgenext2fs.deb" | sha256sum --check ;; \
+      arm64) echo "a9964903e9d4c1006dc9d88b4823be14d2eccaf66007c48e76c883e17db2880c  /tmp/xgenext2fs.deb" | sha256sum --check ;; \
     esac && \
     apt-get update && \
     apt-get install --no-install-recommends -y \
