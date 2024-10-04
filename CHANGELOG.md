@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+
+## [0.16.1] - 2024-10-07
+### Changed
+- Updated xgenext2fs to 1.5.5
+- Updated debian bookworm base image
+
 ## [0.16.0] - 2023-11-30
 ### Changed
 - Updated linux kernel to v6.5.9-ctsi-1
@@ -22,7 +28,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [0.15.0] - 2023-08-11
 ### Added
 - Added support for Linux/ARM64 images
-- Added support fot the GitHub registry
+- Added support for the GitHub registry
 - Added support for building multiple toolchains (RV64G and RV64IMA)
 
 ### Changed
@@ -114,7 +120,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [0.2.0]
 - [0.1.0]
 
-[Unreleased]: https://github.com/cartesi/image-toolchain/compare/v0.16.0...HEAD
+[Unreleased]: https://github.com/cartesi/image-toolchain/compare/v0.16.1...HEAD
+[0.16.1]: https://github.com/cartesi/image-toolchain/releases/tag/v0.16.1
 [0.16.0]: https://github.com/cartesi/image-toolchain/releases/tag/v0.16.0
 [0.15.0]: https://github.com/cartesi/image-toolchain/releases/tag/v0.15.0
 [0.14.0]: https://github.com/cartesi/image-toolchain/releases/tag/v0.14.0
