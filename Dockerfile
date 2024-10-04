@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 
-FROM debian:bookworm-20231120 as ct-ng-builder
+FROM debian:bookworm-20240926 as ct-ng-builder
 
 LABEL maintainer="Machine Reference Unit <https://discord.com/channels/600597137524391947/1107965671976992878>"
 
@@ -31,22 +31,22 @@ ENV BUILD_BASE "/tmp/build"
 RUN \
     apt-get update && \
     apt-get install --no-install-recommends -y \
-        build-essential autoconf automake libtool libtool-bin autotools-dev \
-        git make pkg-config patchutils gawk bison flex ca-certificates gnupg \
-        device-tree-compiler libmpc-dev libmpfr-dev libgmp-dev rsync cpio \
-        libusb-1.0-0-dev texinfo gperf bc zlib1g-dev libncurses-dev \
-        wget vim wget curl zip unzip libexpat-dev python3 help2man && \
+    build-essential autoconf automake libtool libtool-bin autotools-dev \
+    git make pkg-config patchutils gawk bison flex ca-certificates gnupg \
+    device-tree-compiler libmpc-dev libmpfr-dev libgmp-dev rsync cpio \
+    libusb-1.0-0-dev texinfo gperf bc zlib1g-dev libncurses-dev \
+    wget vim wget curl zip unzip libexpat-dev python3 help2man && \
     rm -rf /var/lib/apt/lists/*
 
 RUN \
     wget -O /tmp/xgenext2fs.deb https://github.com/cartesi/genext2fs/releases/download/v1.5.5/xgenext2fs_${TARGETARCH}.deb && \
     case ${TARGETARCH} in \
-      amd64) echo "e42857c454a772553e2bec5e73ac499b39d35dbf622bdb4cbb1b19fe98f62999  /tmp/xgenext2fs.deb" | sha256sum --check ;; \
-      arm64) echo "a9964903e9d4c1006dc9d88b4823be14d2eccaf66007c48e76c883e17db2880c  /tmp/xgenext2fs.deb" | sha256sum --check ;; \
+    amd64) echo "e42857c454a772553e2bec5e73ac499b39d35dbf622bdb4cbb1b19fe98f62999  /tmp/xgenext2fs.deb" | sha256sum --check ;; \
+    arm64) echo "a9964903e9d4c1006dc9d88b4823be14d2eccaf66007c48e76c883e17db2880c  /tmp/xgenext2fs.deb" | sha256sum --check ;; \
     esac && \
     apt-get update && \
     apt-get install --no-install-recommends -y \
-      /tmp/xgenext2fs.deb && \
+    /tmp/xgenext2fs.deb && \
     rm -rf /var/lib/apt/lists/*
 
 RUN \
@@ -127,10 +127,10 @@ RUN \
     tar xf 1.26.0.tar.gz && \
     export CARGO_HOME=$BASE/rust/cargo/ && \
     bash rustup-1.26.0/rustup-init.sh \
-        -y \
-        --default-toolchain 1.74.0 \
-        --profile minimal \
-        --target riscv64gc-unknown-linux-gnu && \
+    -y \
+    --default-toolchain 1.74.0 \
+    --profile minimal \
+    --target riscv64gc-unknown-linux-gnu && \
     echo "[target.riscv64gc-unknown-linux-gnu]\nlinker = \"riscv64-cartesi-linux-gnu-gcc\"" >> $CARGO_HOME/config.toml && \
     mkdir -p $CARGO_HOME/registry && \
     chmod -R o+w $CARGO_HOME/registry && \
