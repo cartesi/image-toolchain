@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 
-FROM debian:bookworm-20240812 as ct-ng-builder
+FROM debian:bookworm-20240926 as ct-ng-builder
 
 LABEL maintainer="Machine Reference Unit <https://discord.com/channels/600597137524391947/1107965671976992878>"
 
