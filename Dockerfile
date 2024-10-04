@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 
-FROM debian:bookworm-20240812 as ct-ng-builder
+FROM debian:bookworm-20240926 as ct-ng-builder
 
 LABEL maintainer="Machine Reference Unit <https://discord.com/channels/600597137524391947/1107965671976992878>"
 
@@ -39,10 +39,10 @@ RUN \
     rm -rf /var/lib/apt/lists/*
 
 RUN \
-    wget -O /tmp/xgenext2fs.deb https://github.com/cartesi/genext2fs/releases/download/v1.5.3/xgenext2fs_${TARGETARCH}.deb && \
+    wget -O /tmp/xgenext2fs.deb https://github.com/cartesi/genext2fs/releases/download/v1.5.6/xgenext2fs_${TARGETARCH}.deb && \
     case ${TARGETARCH} in \
-      amd64) echo "a5e52d86d0bf4c2f9cc38370ea762dc5aee502a86abf8520798acbebd9d7f68f  /tmp/xgenext2fs.deb" | sha256sum --check ;; \
-      arm64) echo "54051a31a10ba5e4f472b8eeaa47c82f3d2e744991995b8ef6981b4c1ba424c2  /tmp/xgenext2fs.deb" | sha256sum --check ;; \
+      amd64) echo "996e4e68a638b5dc5967d3410f92ecb8d2f41e32218bbe0f8b4c4474d7eebc59  /tmp/xgenext2fs.deb" | sha256sum --check ;; \
+      arm64) echo "e5aca81164b762bbe5447bacef41e4fa9e357fd9c8f44e519c5206227d43144d  /tmp/xgenext2fs.deb" | sha256sum --check ;; \
     esac && \
     apt-get update && \
     apt-get install --no-install-recommends -y \
@@ -122,13 +122,13 @@ USER developer
 RUN \
     mkdir -p $BUILD_BASE/rust && \
     cd $BUILD_BASE/rust && \
-    wget https://github.com/rust-lang/rustup/archive/refs/tags/1.26.0.tar.gz && \
-    echo "6f20ff98f2f1dbde6886f8d133fe0d7aed24bc76c670ea1fca18eb33baadd808  1.26.0.tar.gz" | sha256sum --check && \
-    tar xf 1.26.0.tar.gz && \
+    wget https://github.com/rust-lang/rustup/archive/refs/tags/1.27.0.tar.gz && \
+    echo "3d331ab97d75b03a1cc2b36b2f26cd0a16d681b79677512603f2262991950ad1  1.27.0.tar.gz" | sha256sum --check && \
+    tar xf 1.27.0.tar.gz && \
     export CARGO_HOME=$BASE/rust/cargo/ && \
-    bash rustup-1.26.0/rustup-init.sh \
+    bash rustup-1.27.0/rustup-init.sh \
         -y \
-        --default-toolchain 1.74.0 \
+        --default-toolchain 1.77.2 \
         --profile minimal \
         --target riscv64gc-unknown-linux-gnu && \
     echo "[target.riscv64gc-unknown-linux-gnu]\nlinker = \"riscv64-cartesi-linux-gnu-gcc\"" >> $CARGO_HOME/config.toml && \
