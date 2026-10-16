@@ -1,5 +1,11 @@
 # Cartesi Machine Image Toolchain
 
+> [!WARNING]
+> **This repository is no longer maintained.**
+> Starting with machine-emulator v0.19.0 and machine-guest-tools v0.17.0, Cartesi projects build with the RISC-V cross-compilers packaged by Debian and Ubuntu (`gcc-riscv64-linux-gnu`, `gcc-riscv64-unknown-elf`) instead of this image.
+> The `cartesi/toolchain` images on Docker Hub remain available for older projects.
+> Do not use this repository for new development.
+
 The Cartesi Image Toolchain is the repository that provides the Docker configuration files to build a image containing the RISC-V toolchain. This image is used to compile software for the Cartesi Machine Emulator reference implementation. The current toolchain is based on Debian Bookworm and GNU GCC 10.2.0. The target architecture is RISC-V RV64GC with ABI LP64D and RISC-V RV64IMA with ABI LP64.
 
 ## Getting Started
